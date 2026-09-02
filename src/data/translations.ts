@@ -40,7 +40,7 @@ export const UI_TRANSLATIONS: Record<Language, Record<string, string>> = {
 
     // Gallery
     galleryTitle: "Galería Fotográfica",
-    gallerySubtitle: "Explora la riqueza visual de los 6 monumentos de León",
+    gallerySubtitle: "Fotografías de los 6 sitios históricos de León",
 
     // Footer
     footerBadge: "Google Maps · León, Nicaragua"
@@ -84,7 +84,7 @@ export const UI_TRANSLATIONS: Record<Language, Record<string, string>> = {
 
     // Gallery
     galleryTitle: "Photo Gallery",
-    gallerySubtitle: "Explore the visual heritage of León's 6 historic monuments",
+    gallerySubtitle: "Photographs of the 6 historic sites of León",
 
     // Footer
     footerBadge: "Google Maps · León, Nicaragua"

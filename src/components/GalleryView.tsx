@@ -35,10 +35,7 @@ export default function GalleryView({ sites, onSelectSite, lang = "es" }: Galler
             {t.galleryTitle}
           </h2>
           <p className="text-xs sm:text-sm text-[#9a8e84]">
-            {allImages.length}{" "}
-            {lang === "en"
-              ? "high-resolution photographs of León's 6 historic monuments"
-              : "fotografías en alta resolución de los 6 monumentos históricos de León"}
+            {t.gallerySubtitle}
           </p>
         </div>
 
