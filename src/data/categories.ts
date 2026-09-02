@@ -1,6 +1,7 @@
 import { CategoryDetails } from "../types/site";
 
 export const CATEGORIES: Record<string, CategoryDetails> = {
+  "Gobierno":           { color: "#d97706", accent: "#fffbeb", label: "Gobierno Municipal" },
   "Patrimonio UNESCO":  { color: "#c2622a", accent: "#fff4ee", label: "Patrimonio UNESCO" },
   "Volcán":             { color: "#4b5563", accent: "#f3f4f6", label: "Volcán / Naturaleza" },
   "Arqueología":        { color: "#7c5c38", accent: "#fdf8f2", label: "Arqueología" },

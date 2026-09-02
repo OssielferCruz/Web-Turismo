@@ -5,6 +5,7 @@ export interface CategoryDetails {
 }
 
 export type CategoryName =
+  | "Gobierno"
   | "Patrimonio UNESCO"
   | "Volcán"
   | "Arqueología"
