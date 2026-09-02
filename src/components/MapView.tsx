@@ -13,35 +13,56 @@ interface MapViewProps {
   onToggleCategory: (cat: string) => void;
 }
 
-// Custom Marker Icon generator using HTML Leaflet DivIcon
+// Custom Marker Icon generator using HTML Leaflet DivIcon with prominent badge tags
 function createMarkerIcon(site: Site, isActive: boolean) {
   const color = getCategoryColor(site.category);
-  const size = isActive ? 46 : 34;
-  const borderWidth = isActive ? "3px" : "2px";
+  const pinSize = isActive ? 48 : 40;
 
   return L.divIcon({
     className: "custom-leaflet-marker",
     html: `
-      <div style="
-        width:${size}px; height:${size}px;
-        background:${color};
-        border-radius: 50% 50% 50% 4px;
-        transform: rotate(-45deg);
-        display: flex; align-items: center; justify-content: center;
-        border: ${borderWidth} solid ${isActive ? '#ffffff' : 'rgba(255,255,255,0.9)'};
-        box-shadow: 0 ${isActive ? 12 : 4}px ${isActive ? 24 : 10}px ${isActive ? `${color}88` : 'rgba(0,0,0,0.3)'};
-        transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        cursor: pointer;
-        z-index: ${isActive ? 1000 : 1};
-      ">
-        <span style="transform: rotate(45deg); font-size: ${isActive ? 20 : 14}px; line-height: 1">
-          ${site.emoji}
-        </span>
+      <div style="position: relative; display: flex; flex-direction: column; align-items: center; cursor: pointer; pointer-events: auto;">
+        <!-- Floating Text Name Pill Badge -->
+        <div style="
+          background: ${isActive ? '#1a1612' : 'rgba(255, 255, 255, 0.96)'};
+          color: ${isActive ? '#ffffff' : '#2d2420'};
+          padding: 3px 9px;
+          border-radius: 14px;
+          border: 2px solid ${color};
+          box-shadow: 0 4px 12px rgba(0,0,0,0.22);
+          font-family: 'Outfit', -apple-system, sans-serif;
+          font-size: ${isActive ? '12px' : '11px'};
+          font-weight: 700;
+          white-space: nowrap;
+          margin-bottom: 4px;
+          transition: all 0.2s ease;
+          letter-spacing: -0.01em;
+          pointer-events: none;
+        ">
+          ${site.shortName}
+        </div>
+
+        <!-- Teardrop Pin Container -->
+        <div style="
+          width:${pinSize}px; height:${pinSize}px;
+          background:${color};
+          border-radius: 50% 50% 50% 4px;
+          transform: rotate(-45deg);
+          display: flex; align-items: center; justify-content: center;
+          border: 3px solid #ffffff;
+          box-shadow: ${isActive ? `0 8px 24px ${color}aa, 0 0 0 6px ${color}33` : `0 6px 16px ${color}66`};
+          transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          ${isActive ? 'animation: markerPulse 2.2s infinite ease-in-out;' : ''}
+        ">
+          <span style="transform: rotate(45deg); font-size: ${isActive ? 22 : 17}px; line-height: 1">
+            ${site.emoji}
+          </span>
+        </div>
       </div>
     `,
-    iconSize: [size, size],
-    iconAnchor: [size / 2, size],
-    popupAnchor: [0, -(size + 8)],
+    iconSize: [120, pinSize + 30],
+    iconAnchor: [60, pinSize + 30],
+    popupAnchor: [0, -(pinSize + 30)],
   });
 }
 

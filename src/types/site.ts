@@ -16,6 +16,16 @@ export type CategoryName =
   | "Universidad"
   | "Parque";
 
+export interface SiteDetails {
+  officialName?: string;
+  constructionDate?: string;
+  architect?: string;
+  functionInfo?: string;
+  architecturalStyle?: string;
+  historicalImportance?: string;
+  distinctiveElements?: string;
+}
+
 export interface Site {
   id: number;
   name: string;
@@ -36,6 +46,8 @@ export interface Site {
   difficulty?: string;
   images: string[];
   tags: string[];
+  audioUrl?: string;
+  details?: SiteDetails;
 }
 
 export type AppView = "mapa" | "lista" | "galería" | "acerca";
