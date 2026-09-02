@@ -84,7 +84,7 @@ export default function App() {
   };
 
   return (
-    <div className="flex flex-col h-screen w-screen overflow-hidden bg-[#f5f0eb] font-['Inter',sans-serif] text-[#1a1612]">
+    <div className="flex flex-col h-screen w-screen max-w-full max-h-full overflow-hidden bg-[#f5f0eb] font-['Inter',sans-serif] text-[#1a1612]">
       {/* Top Header Bar */}
       <Header
         currentView={view}
@@ -96,7 +96,7 @@ export default function App() {
       />
 
       {/* Main Body Area */}
-      <div className="flex flex-1 overflow-hidden relative">
+      <div className="flex flex-1 overflow-hidden relative w-full h-full">
         {/* Non-Map Views */}
         {view === "lista" && (
           <ListView sites={filteredSites} onSelectSite={handleSelectSite} lang={lang} />
@@ -123,7 +123,7 @@ export default function App() {
             />
 
             {/* Interactive Leaflet Map */}
-            <div className="flex-1 relative overflow-hidden">
+            <div className="flex-1 relative overflow-hidden w-full h-full min-w-0 min-h-0">
               <MapView
                 sites={filteredSites}
                 selectedSite={selectedSite}
@@ -146,20 +146,14 @@ export default function App() {
               </div>
             )}
 
-            {/* Mobile Slide-Up Bottom Sheet Detail Panel */}
+            {/* Mobile Full Screen Detail Panel (100% Pantalla Completa sin bordes/espacios) */}
             {selectedSite && (
-              <div className="md:hidden fixed inset-0 z-[1000] flex flex-col justify-end bg-black/50 backdrop-blur-xs animate-fade-in">
-                <div className="bg-white rounded-t-3xl max-h-[85vh] h-[80vh] overflow-hidden shadow-2xl flex flex-col animate-slide-up">
-                  {/* Drawer Handle */}
-                  <div className="w-12 h-1.5 bg-[#d4c9be] rounded-full mx-auto my-2 flex-shrink-0" />
-                  <div className="flex-1 overflow-y-auto">
-                    <DetailPanel
-                      site={selectedSite}
-                      onClose={() => setSelectedSite(null)}
-                      lang={lang}
-                    />
-                  </div>
-                </div>
+              <div className="md:hidden fixed inset-0 z-[1000] bg-white flex flex-col h-full w-full overflow-hidden animate-fade-in">
+                <DetailPanel
+                  site={selectedSite}
+                  onClose={() => setSelectedSite(null)}
+                  lang={lang}
+                />
               </div>
             )}
           </>

@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import { Site, Language } from "../types/site";
-import { CATEGORIES, getCategoryColor, getCategoryLabel } from "../data/categories";
+import { getCategoryColor, getCategoryLabel } from "../data/categories";
 
 interface MapViewProps {
   sites: Site[];
@@ -68,7 +68,7 @@ function createMarkerIcon(site: Site, isActive: boolean, lang: Language = "es") 
   });
 }
 
-// Controller component to handle smooth flyTo animations and opening popups
+// Controller component to handle smooth flyTo animations, size invalidation and opening popups
 function MapController({
   selectedSite,
   flyToTarget,
@@ -79,6 +79,23 @@ function MapController({
   markerRefs: React.MutableRefObject<Record<number, L.Marker | null>>;
 }) {
   const map = useMap();
+
+  // Invalidate map size on load and resize
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      map.invalidateSize();
+    }, 150);
+
+    const handleResize = () => {
+      map.invalidateSize();
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [map]);
 
   useEffect(() => {
     if (selectedSite) {
@@ -113,72 +130,17 @@ function MapController({
   return null;
 }
 
-// Category legend component
-function MapLegend({
-  activeCategories,
-  onToggleCategory,
-  lang = "es",
-}: {
-  activeCategories: Set<string>;
-  onToggleCategory: (cat: string) => void;
-  lang?: Language;
-}) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <div className="absolute bottom-16 sm:bottom-6 right-3 z-[500] bg-white/95 border border-[#e5ddd5] rounded-xl shadow-lg backdrop-blur-md min-w-[160px] overflow-hidden">
-      <button
-        onClick={() => setIsOpen((p) => !p)}
-        className="w-full flex items-center justify-between px-3 py-2 text-left bg-none cursor-pointer border-b border-[#f0ebe5]"
-      >
-        <span className="text-[10px] font-bold uppercase tracking-wider text-[#6b6059] font-mono">
-          {lang === "en" ? "Category Legend" : "Leyenda Categorías"}
-        </span>
-        <span className={`text-xs text-[#9a8e84] transition-transform ${isOpen ? "rotate-180" : ""}`}>
-          ▾
-        </span>
-      </button>
-
-      {isOpen && (
-        <div className="p-2 space-y-1 max-h-48 overflow-y-auto">
-          {Object.entries(CATEGORIES).map(([key, { color }]) => {
-            const active = activeCategories.has(key);
-            const label = getCategoryLabel(key, lang);
-            return (
-              <button
-                key={key}
-                onClick={() => onToggleCategory(key)}
-                className={`flex items-center gap-2 w-full px-2 py-1 text-left text-xs rounded transition-opacity cursor-pointer ${
-                  active ? "opacity-100 font-semibold" : "opacity-40 hover:opacity-75"
-                }`}
-              >
-                <span
-                  className="w-2.5 h-2.5 rounded-full flex-shrink-0"
-                  style={{ backgroundColor: color }}
-                />
-                <span className="text-[11px] text-[#3d3430] truncate">{label}</span>
-              </button>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-}
-
 export default function MapView({
   sites,
   selectedSite,
   flyToTarget,
   onSelectSite,
-  activeCategories,
-  onToggleCategory,
   lang = "es",
 }: MapViewProps) {
   const markerRefs = useRef<Record<number, L.Marker | null>>({});
 
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-full min-w-full min-h-full">
       <MapContainer
         center={[12.435345491333722, -86.87924770224978]}
         zoom={16}
@@ -201,7 +163,6 @@ export default function MapView({
         {sites.map((site) => {
           const isActive = selectedSite?.id === site.id;
           const color = getCategoryColor(site.category);
-          const displayName = lang === "en" ? (site.nameEn || site.name) : site.name;
           const displayShortName = lang === "en" ? (site.shortNameEn || site.shortName) : site.shortName;
           const displayCategory = getCategoryLabel(site.category, lang);
           const displayDesc = lang === "en" ? (site.descriptionEn || site.description) : site.description;
@@ -251,13 +212,6 @@ export default function MapView({
           );
         })}
       </MapContainer>
-
-      {/* Category Legend Overlay */}
-      <MapLegend
-        activeCategories={activeCategories}
-        onToggleCategory={onToggleCategory}
-        lang={lang}
-      />
     </div>
   );
 }

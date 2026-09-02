@@ -44,53 +44,61 @@ export default function Sidebar({
 
   return (
     <>
-      {/* Desktop Sidebar Toggle Floating Button */}
+      {/* Universal Floating Toggle Button (Visible on both Mobile and Desktop) */}
       <button
         onClick={onToggleOpen}
-        className={`hidden md:flex absolute z-[600] top-16 w-7 h-7 bg-white border border-[#e5ddd5] rounded-md shadow-md items-center justify-center text-xs text-[#6b6059] hover:bg-[#f7f4f1] cursor-pointer transition-all duration-300 ${
-          isOpen ? "left-[284px]" : "left-3"
+        className={`fixed z-[600] top-20 w-9 h-9 bg-white border border-[#e5ddd5] rounded-xl shadow-lg flex items-center justify-center text-sm font-bold text-[#1a1612] hover:bg-[#f7f4f1] cursor-pointer transition-all duration-300 ${
+          isOpen ? "left-[280px] md:left-[284px]" : "left-3"
         }`}
-        title={isOpen ? "Contraer lista" : "Expandir lista"}
+        title={isOpen ? "Ocultar lista" : "Mostrar lista de sitios"}
       >
-        {isOpen ? "◀" : "▶"}
+        {isOpen ? "◀" : "☰"}
       </button>
+
+      {/* Mobile Backdrop Overlay when Drawer is Open */}
+      {isOpen && (
+        <div
+          onClick={onToggleOpen}
+          className="md:hidden fixed inset-0 bg-black/40 backdrop-blur-xs z-[490]"
+        />
+      )}
 
       {/* Sidebar Container */}
       <aside
-        className={`bg-white border-r border-[#e5ddd5] flex flex-col flex-shrink-0 z-20 transition-all duration-300 ${
+        className={`bg-white border-r border-[#e5ddd5] flex flex-col flex-shrink-0 transition-all duration-300 ${
           isOpen
-            ? "w-full md:w-[292px] h-full opacity-100"
+            ? "fixed md:relative inset-y-0 left-0 z-[500] md:z-20 w-[85vw] max-w-[292px] md:w-[292px] h-full opacity-100 shadow-2xl md:shadow-none"
             : "w-0 opacity-0 pointer-events-none border-none overflow-hidden"
         }`}
       >
         {/* Search Header */}
-        <div className="p-3 border-b border-[#f0ebe5] flex-shrink-0">
+        <div className="p-3 border-b border-[#f0ebe5] flex-shrink-0 pt-4 md:pt-3">
           <div className="flex items-center justify-between mb-2">
             <p className="text-[10px] font-bold uppercase tracking-wider text-[#bdb0a6] font-mono">
               {t.totalPlaces}
             </p>
-            {/* Mobile close button inside drawer */}
+            {/* Close button inside drawer */}
             <button
               onClick={onToggleOpen}
-              className="md:hidden text-xs text-[#9a8e84] hover:text-[#1a1612] px-2 py-0.5 bg-[#f7f4f1] rounded border border-[#e5ddd5]"
+              className="text-xs text-[#9a8e84] hover:text-[#1a1612] px-2 py-0.5 bg-[#f7f4f1] rounded border border-[#e5ddd5] cursor-pointer"
             >
               Cerrar ✕
             </button>
           </div>
 
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-[#f7f4f1] border border-[#e5ddd5] rounded-lg">
-            <span className="text-xs">🔍</span>
+          <div className="relative">
             <input
               type="text"
-              placeholder={t.searchPlaceholder}
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="w-full text-xs bg-transparent outline-none text-[#3d3430] placeholder-[#bdb0a6]"
+              placeholder={t.searchPlaceholder}
+              className="w-full bg-[#f7f4f1] border border-[#e5ddd5] rounded-xl px-3 py-2 pl-8 text-xs text-[#1a1612] placeholder-[#9a8e84] focus:outline-none focus:border-[#c2622a] focus:bg-white transition-all font-['Outfit',sans-serif]"
             />
+            <span className="absolute left-2.5 top-2.5 text-xs text-[#9a8e84]">🔍</span>
             {searchQuery && (
               <button
                 onClick={() => onSearchChange("")}
-                className="text-xs text-[#9a8e84] hover:text-[#1a1612]"
+                className="absolute right-2.5 top-2.5 text-xs text-[#9a8e84] hover:text-[#1a1612] cursor-pointer"
               >
                 ✕
               </button>
@@ -98,76 +106,89 @@ export default function Sidebar({
           </div>
         </div>
 
-        {/* List of Sites */}
-        <div className="flex-1 overflow-y-auto">
+        {/* Sites List Container */}
+        <div className="flex-1 overflow-y-auto divide-y divide-[#f5f0eb] pb-16 md:pb-0">
           {sites.length === 0 ? (
-            <div className="p-8 text-center text-xs text-[#bdb0a6]">
+            <div className="p-6 text-center text-xs text-[#9a8e84]">
               {t.noResults}
             </div>
           ) : (
-            sites.map((site, index) => {
+            sites.map((site) => {
+              const isSelected = selectedSite?.id === site.id;
               const color = getCategoryColor(site.category);
               const accent = getCategoryAccent(site.category);
-              const isActive = selectedSite?.id === site.id;
-
-              const displayName = lang === "en" ? (site.shortNameEn || site.shortName) : site.shortName;
+              const displayName = lang === "en" ? (site.nameEn || site.name) : site.name;
               const displayCategory = getCategoryLabel(site.category, lang);
+              const displayTags = lang === "en" ? (site.tagsEn || site.tags) : site.tags;
+              const coverImg =
+                site.images && site.images.length > 0
+                  ? site.images[0]
+                  : "https://images.unsplash.com/photo-1684861746842-7115e4530437?w=400&fit=crop";
 
               return (
-                <button
+                <div
                   key={site.id}
                   onClick={() => onSelectSite(site)}
-                  className={`w-full text-left p-3 flex items-start gap-2.5 border-b border-[#f0ebe5] transition-all cursor-pointer hover:bg-[#faf7f4] ${
-                    isActive ? "bg-amber-50/60" : ""
+                  className={`p-3 transition-all cursor-pointer border-l-4 flex gap-3 hover:bg-[#faf7f4] ${
+                    isSelected
+                      ? "bg-[#fff8f3] border-l-[#c2622a] shadow-xs"
+                      : "border-l-transparent"
                   }`}
-                  style={{
-                    borderLeft: isActive ? `4px solid ${color}` : "4px solid transparent",
-                    backgroundColor: isActive ? accent : undefined,
-                  }}
                 >
-                  <div
-                    className="w-9 h-9 rounded-xl flex items-center justify-center text-lg flex-shrink-0 shadow-xs"
-                    style={{ backgroundColor: `${color}18` }}
-                  >
-                    {site.emoji}
+                  {/* Thumbnail Image */}
+                  <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-[#e8e0d8] relative border border-[#e5ddd5]">
+                    <img
+                      src={coverImg}
+                      alt={displayName}
+                      className="w-full h-full object-cover"
+                    />
+                    <span className="absolute bottom-0.5 right-0.5 text-xs">
+                      {site.emoji}
+                    </span>
                   </div>
 
-                  <div className="flex-1 min-w-0">
-                    <p
-                      className={`text-xs font-bold font-['Outfit',sans-serif] truncate ${
-                        isActive ? "text-[#1a1612]" : "text-[#3d3430]"
-                      }`}
-                      style={{ color: isActive ? color : undefined }}
-                    >
-                      {displayName}
-                    </p>
-                    <p className="text-[10px] text-[#9a8e84] truncate">{displayCategory}</p>
-                    <div className="flex items-center gap-1.5 mt-1">
-                      <Stars rating={site.rating ?? 4.8} />
-                      <span className="text-[10px] font-bold font-mono text-[#e97c2e]">
-                        {site.rating ?? 4.8}
-                      </span>
-                      {site.visitors && (
-                        <span className="text-[9px] text-[#bdb0a6]">· {site.visitors}</span>
-                      )}
+                  {/* Site Info */}
+                  <div className="flex-1 min-w-0 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center gap-1.5 mb-0.5">
+                        <span
+                          className="px-1.5 py-0.2 rounded text-[9px] font-bold font-['Outfit',sans-serif] text-white"
+                          style={{ backgroundColor: color }}
+                        >
+                          {displayCategory}
+                        </span>
+                      </div>
+                      <h3 className="font-['Outfit',sans-serif] font-bold text-xs text-[#1a1612] truncate leading-snug">
+                        {displayName}
+                      </h3>
+                    </div>
+
+                    <div className="flex items-center justify-between mt-1">
+                      <div className="flex items-center gap-1">
+                        <Stars rating={site.rating ?? 4.8} />
+                        <span className="text-[10px] font-bold font-mono text-[#e97c2e]">
+                          {site.rating ?? 4.8}
+                        </span>
+                      </div>
+
+                      {/* Tag badges */}
+                      <div className="flex gap-1 overflow-hidden">
+                        {(displayTags ?? []).slice(0, 1).map((tag) => (
+                          <span
+                            key={tag}
+                            className="px-1.5 py-0.2 rounded text-[9px] font-mono text-[#6b6059] truncate max-w-[80px]"
+                            style={{ backgroundColor: accent }}
+                          >
+                            #{tag}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   </div>
-
-                  <span className="text-[9px] font-mono text-[#bdb0a6] flex-shrink-0 mt-0.5">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                </button>
+                </div>
               );
             })
           )}
-        </div>
-
-        {/* Footer info */}
-        <div className="p-2.5 border-t border-[#f0ebe5] flex-shrink-0 flex items-center justify-between text-[10px] font-mono text-[#bdb0a6] bg-[#faf8f6]">
-          <span>WGS84 · EPSG:4326</span>
-          <span>
-            {sites.length}/{totalSitesCount} activos
-          </span>
         </div>
       </aside>
     </>
