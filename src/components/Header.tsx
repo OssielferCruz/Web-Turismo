@@ -28,18 +28,29 @@ export default function Header({
   ];
 
   return (
-    <header className="flex items-center justify-between px-4 sm:px-6 h-14 flex-shrink-0 bg-white border-b border-[#e5ddd5] shadow-xs z-10">
-      {/* Brand Logo */}
-      <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => onViewChange("mapa")}>
-        <div className="w-8 h-8 bg-[#c2622a] rounded-lg flex items-center justify-center text-lg text-white shadow-xs">
-          🇳🇮
+    <header className="flex items-center justify-between px-4 sm:px-6 h-16 flex-shrink-0 bg-white border-b border-[#e5ddd5] shadow-xs z-10">
+      {/* Brand Logo SVG + Typographic Name ArqGuides León Tours */}
+      <div
+        className="flex items-center gap-3 cursor-pointer group py-1"
+        onClick={() => onViewChange("mapa")}
+        title="ArqGuides León Tours - Inicio"
+      >
+        {/* SVG Logo from public/logo/logo.svg */}
+        <div className="w-8 h-10 sm:w-9 sm:h-11 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+          <img
+            src="/logo/logo.svg"
+            alt="ArqGuides Logo"
+            className="w-full h-full object-contain filter drop-shadow-xs"
+          />
         </div>
-        <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-2">
-          <span className="font-['Outfit',sans-serif] font-extrabold text-sm sm:text-base text-[#1a1612] tracking-tight">
-            Turismo León
+
+        {/* Brand Typographic Style: ArqGuides (underlined) + León Tours */}
+        <div className="flex flex-col justify-center leading-none">
+          <span className="font-brand font-black text-lg sm:text-xl text-[#1a1612] tracking-tight border-b-2 border-[#1a1612] pb-[1px] inline-block">
+            ArqGuides
           </span>
-          <span className="text-[11px] text-[#9a8e84] font-medium hidden sm:inline">
-            Nicaragua
+          <span className="font-brand font-bold text-[10px] sm:text-[11px] text-[#1a1612] tracking-wider uppercase text-center mt-[3px]">
+            León Tours
           </span>
         </div>
       </div>
