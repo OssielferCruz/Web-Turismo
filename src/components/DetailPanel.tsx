@@ -45,10 +45,6 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-
-  // Custom user-uploaded MP3 file override
-  const [customAudioUrl, setCustomAudioUrl] = useState<string | null>(null);
 
   const color = getCategoryColor(site.category);
   const accent = getCategoryAccent(site.category);
@@ -62,23 +58,16 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
   const displayShortName = lang === "en" ? (site.shortNameEn || site.shortName) : site.shortName;
   const displayDescription = lang === "en" ? (site.descriptionEn || site.description) : site.description;
   const displayHistory = lang === "en" ? (site.historyEn || site.history) : site.history;
-  const displayTips = lang === "en" ? (site.tipsEn || site.tips) : site.tips;
-  const displaySchedule = lang === "en" ? (site.scheduleEn || site.schedule) : site.schedule;
-  const displayEntrance = lang === "en" ? (site.entranceEn || site.entrance) : site.entrance;
-  const displayDuration = lang === "en" ? (site.durationEn || site.duration) : site.duration;
-  const displayDifficulty = lang === "en" ? (site.difficultyEn || site.difficulty) : site.difficulty;
   const displayTags = lang === "en" ? (site.tagsEn || site.tags) : site.tags;
   const displayCategory = getCategoryLabel(site.category, lang);
 
   // Sync audioLang when global lang or site changes
   useEffect(() => {
     setAudioLang(lang);
-    setCustomAudioUrl(null);
   }, [lang, site.id]);
 
   // Audio track URL determination
-  const defaultAudioUrl = audioLang === "en" ? (site.audioUrlEn || site.audioUrl) : site.audioUrl;
-  const currentAudioUrl = customAudioUrl || defaultAudioUrl;
+  const currentAudioUrl = audioLang === "en" ? (site.audioUrlEn || site.audioUrl) : site.audioUrl;
 
   // Reset audio playback when switching site or audio source
   useEffect(() => {
@@ -90,7 +79,7 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
       audioRef.current.currentTime = 0;
       audioRef.current.load();
     }
-  }, [site.id, audioLang, customAudioUrl]);
+  }, [site.id, audioLang]);
 
   const toggleAudio = () => {
     if (!audioRef.current) return;
@@ -131,15 +120,6 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
     setCurrentTime(newTime);
   };
 
-  // Handle local MP3 file upload
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setCustomAudioUrl(url);
-    }
-  };
-
   const openGoogleMapsLocation = () => {
     const searchQuery = site.googleMapsQuery || site.name;
     const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(searchQuery)}`;
@@ -162,15 +142,6 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
       {lbIdx !== null && (
         <Lightbox images={images} startIndex={lbIdx} onClose={() => setLbIdx(null)} />
       )}
-
-      {/* Hidden File Input for Custom MP3 Upload */}
-      <input
-        type="file"
-        ref={fileInputRef}
-        accept="audio/*"
-        onChange={handleFileUpload}
-        className="hidden"
-      />
 
       {/* Elemento de Audio HTML5 cargado con la URL del idioma de audio activo */}
       <audio
@@ -259,7 +230,7 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
             </div>
           </div>
 
-          {/* Audio Player Widget Bilingüe */}
+          {/* Audio Player Widget Limpio */}
           <div className="bg-gradient-to-r from-[#1a1612] to-[#362b25] text-white rounded-2xl p-4 shadow-md border border-[#4a3d35] flex flex-col gap-3">
             {/* Audio Header & Language Switcher inside Widget */}
             <div className="flex items-center justify-between border-b border-[#4a3d35] pb-2.5">
@@ -310,13 +281,6 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
                   <p className="text-xs font-bold font-['Outfit',sans-serif] truncate text-white">
                     {displayShortName}
                   </p>
-                  <p className="text-[10px] text-[#c4b6ab] truncate mt-0.5">
-                    {customAudioUrl
-                      ? "📁 MP3 Personalizado Cargado"
-                      : audioLang === "en"
-                      ? "🇬🇧 English Narrated Audio (/audios_en/...)"
-                      : "🇪🇸 Audioguía en Español (/audios/...)"}
-                  </p>
                 </div>
               </div>
 
@@ -357,24 +321,6 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
                 <span>{formatTime(currentTime)}</span>
                 <span>{formatTime(duration)}</span>
               </div>
-            </div>
-
-            {/* Botón para cargar archivo MP3 local si se desea */}
-            <div className="flex items-center justify-between pt-1 text-[10px] font-mono text-[#c4b6ab]">
-              <button
-                onClick={() => fileInputRef.current?.click()}
-                className="hover:text-white underline cursor-pointer"
-              >
-                📁 Cargar mi archivo MP3 para este sitio...
-              </button>
-              {customAudioUrl && (
-                <button
-                  onClick={() => setCustomAudioUrl(null)}
-                  className="text-amber-400 hover:text-white"
-                >
-                  Restablecer
-                </button>
-              )}
             </div>
           </div>
 
@@ -481,11 +427,11 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
             </div>
           )}
 
-          {/* TAB 2: RESUMEN Y DATOS PRÁCTICOS DE VISITA */}
+          {/* TAB 2: RESUMEN HISTÓRICO */}
           {activeTab === "resumen" && (
             <div className="flex flex-col gap-3">
               {displayDescription && (
-                <div>
+                <div className="p-3 bg-[#faf7f4] border border-[#e5ddd5] rounded-xl">
                   <h4 className="text-xs font-bold font-mono uppercase text-[#9a8e84]">
                     {t.fieldOverview}
                   </h4>
@@ -499,49 +445,6 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
                     {t.fieldHistoryContext}
                   </h4>
                   <p className="text-xs text-[#4a423d] leading-relaxed mt-1">{displayHistory}</p>
-                </div>
-              )}
-
-              {/* Practical Visit Info Grid */}
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                {displayEntrance && (
-                  <div className="p-2 bg-[#f7f4f1] rounded-lg">
-                    <span className="text-[9px] font-bold font-mono text-[#9a8e84] block">
-                      {t.fieldEntrance}
-                    </span>
-                    <span className="font-semibold text-[#1a1612]">{displayEntrance}</span>
-                  </div>
-                )}
-                {displayDuration && (
-                  <div className="p-2 bg-[#f7f4f1] rounded-lg">
-                    <span className="text-[9px] font-bold font-mono text-[#9a8e84] block">
-                      {t.fieldDuration}
-                    </span>
-                    <span className="font-semibold text-[#1a1612]">{displayDuration}</span>
-                  </div>
-                )}
-                {displayDifficulty && (
-                  <div className="p-2 bg-[#f7f4f1] rounded-lg">
-                    <span className="text-[9px] font-bold font-mono text-[#9a8e84] block">
-                      {t.fieldDifficulty}
-                    </span>
-                    <span className="font-semibold text-[#1a1612]">{displayDifficulty}</span>
-                  </div>
-                )}
-                {displaySchedule && (
-                  <div className="p-2 bg-[#f7f4f1] rounded-lg">
-                    <span className="text-[9px] font-bold font-mono text-[#9a8e84] block">
-                      {t.fieldSchedule}
-                    </span>
-                    <span className="font-semibold text-[#1a1612]">{displaySchedule}</span>
-                  </div>
-                )}
-              </div>
-
-              {displayTips && (
-                <div className="p-3 bg-amber-50 border border-amber-200/80 rounded-xl text-xs text-[#7c4d25] leading-relaxed">
-                  <span className="font-bold block mb-0.5">💡 {t.fieldTips}</span>
-                  {displayTips}
                 </div>
               )}
             </div>
