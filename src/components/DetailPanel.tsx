@@ -64,6 +64,18 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
   const displayCategory = getCategoryLabel(site.category, lang);
 
   const currentAudioUrl = lang === "en" ? (site.audioUrlEn || site.audioUrl) : site.audioUrl;
+  const [audioSrc, setAudioSrc] = useState<string>(currentAudioUrl || "");
+
+  useEffect(() => {
+    setAudioSrc(currentAudioUrl || "");
+  }, [currentAudioUrl]);
+
+  const handleAudioError = () => {
+    if (lang === "en" && site.audioUrl && audioSrc !== site.audioUrl) {
+      console.warn(`Audio en inglés (${audioSrc}) no cargó. Usando pista de respaldo en español.`);
+      setAudioSrc(site.audioUrl);
+    }
+  };
 
   const details = site.details ?? {};
   const dOfficialName = lang === "en" ? (details.officialNameEn || details.officialName) : details.officialName;
@@ -142,10 +154,11 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
       {/* Elemento de Audio HTML5 cargado con la URL correspondiente al idioma activo */}
       <audio
         ref={audioRef}
-        src={currentAudioUrl || ""}
+        src={audioSrc}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
         onDurationChange={handleLoadedMetadata}
+        onError={handleAudioError}
         onEnded={() => {
           setIsPlaying(false);
           setCurrentTime(0);
