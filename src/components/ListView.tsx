@@ -1,9 +1,10 @@
-import { Site } from "../types/site";
-import { getCategoryColor, getCategoryAccent } from "../data/categories";
+import { Site, Language } from "../types/site";
+import { getCategoryColor, getCategoryAccent, getCategoryLabel } from "../data/categories";
 
 interface ListViewProps {
   sites: Site[];
   onSelectSite: (site: Site) => void;
+  lang?: Language;
 }
 
 function Stars({ rating }: { rating: number }) {
@@ -21,16 +22,19 @@ function Stars({ rating }: { rating: number }) {
   );
 }
 
-export default function ListView({ sites, onSelectSite }: ListViewProps) {
+export default function ListView({ sites, onSelectSite, lang = "es" }: ListViewProps) {
   return (
     <div className="flex-1 overflow-y-auto p-4 sm:p-7 bg-[#f5f0eb] pb-20 md:pb-8">
       <div className="max-w-6xl mx-auto">
         <div className="mb-6">
           <h2 className="font-['Outfit',sans-serif] text-xl sm:text-2xl font-bold text-[#1a1612]">
-            Todos los sitios turísticos
+            {lang === "en" ? "All Tourist Sites" : "Todos los sitios turísticos"}
           </h2>
           <p className="text-xs sm:text-sm text-[#9a8e84]">
-            {sites.length} lugares emblemáticos registrados en León, Nicaragua
+            {sites.length}{" "}
+            {lang === "en"
+              ? "emblematic historic sites registered in León, Nicaragua"
+              : "lugares emblemáticos registrados en León, Nicaragua"}
           </p>
         </div>
 
@@ -38,7 +42,15 @@ export default function ListView({ sites, onSelectSite }: ListViewProps) {
           {sites.map((site) => {
             const color = getCategoryColor(site.category);
             const accent = getCategoryAccent(site.category);
-            const image = site.images && site.images.length > 0 ? site.images[0] : "https://images.unsplash.com/photo-1684861746842-7115e4530437?w=900&h=600&fit=crop&auto=format";
+            const image =
+              site.images && site.images.length > 0
+                ? site.images[0]
+                : "https://images.unsplash.com/photo-1684861746842-7115e4530437?w=900&h=600&fit=crop&auto=format";
+
+            const displayName = lang === "en" ? (site.shortNameEn || site.shortName) : site.shortName;
+            const displayDesc = lang === "en" ? (site.descriptionEn || site.description) : site.description;
+            const displayCategory = getCategoryLabel(site.category, lang);
+            const displayTags = lang === "en" ? (site.tagsEn || site.tags) : site.tags;
 
             return (
               <div
@@ -50,7 +62,7 @@ export default function ListView({ sites, onSelectSite }: ListViewProps) {
                 <div className="relative h-44 overflow-hidden bg-[#e8e0d8]">
                   <img
                     src={image}
-                    alt={site.name}
+                    alt={displayName}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
@@ -61,7 +73,7 @@ export default function ListView({ sites, onSelectSite }: ListViewProps) {
                     style={{ backgroundColor: color }}
                   >
                     <span>{site.emoji}</span>
-                    <span>{site.category}</span>
+                    <span>{displayCategory}</span>
                   </div>
                 </div>
 
@@ -69,7 +81,7 @@ export default function ListView({ sites, onSelectSite }: ListViewProps) {
                 <div className="p-4 flex-1 flex flex-col justify-between">
                   <div>
                     <h3 className="font-['Outfit',sans-serif] text-sm font-bold text-[#1a1612] group-hover:text-[#c2622a] transition-colors leading-snug">
-                      {site.shortName}
+                      {displayName}
                     </h3>
 
                     <div className="flex items-center gap-1.5 mt-1.5 mb-2">
@@ -83,13 +95,13 @@ export default function ListView({ sites, onSelectSite }: ListViewProps) {
                     </div>
 
                     <p className="text-xs text-[#6b6059] line-clamp-2 leading-relaxed mb-3">
-                      {site.description}
+                      {displayDesc}
                     </p>
                   </div>
 
                   {/* Tags */}
                   <div className="flex flex-wrap gap-1 pt-2 border-t border-[#f0ebe5]">
-                    {(site.tags ?? []).slice(0, 3).map((tag) => (
+                    {(displayTags ?? []).slice(0, 3).map((tag) => (
                       <span
                         key={tag}
                         className="text-[9px] font-semibold px-2 py-0.5 rounded-full border"

@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Site, AppView } from "./types/site";
+import { Site, AppView, Language } from "./types/site";
 import { SITES } from "./data/sites";
 import { CATEGORIES } from "./data/categories";
 
@@ -22,16 +22,40 @@ export default function App() {
     new Set(Object.keys(CATEGORIES))
   );
 
-  // Filter sites based on category and search query
+  // Language state (persisted in localStorage)
+  const [lang, setLang] = useState<Language>(() => {
+    const saved = localStorage.getItem("turismo_leon_lang");
+    return saved === "en" || saved === "es" ? saved : "es";
+  });
+
+  const handleToggleLang = () => {
+    setLang((prev) => {
+      const next = prev === "es" ? "en" : "es";
+      localStorage.setItem("turismo_leon_lang", next);
+      return next;
+    });
+  };
+
+  // Filter sites based on category and search query (bilingual search)
   const filteredSites = useMemo(() => {
     return SITES.filter((site) => {
       const categoryMatch = activeCategories.has(site.category);
       const q = searchQuery.toLowerCase().trim();
       if (!q) return categoryMatch;
 
-      const nameMatch = site.name.toLowerCase().includes(q) || site.shortName.toLowerCase().includes(q);
-      const catMatch = site.category.toLowerCase().includes(q);
-      const tagMatch = (site.tags ?? []).some((t) => t.toLowerCase().includes(q));
+      const nameMatch =
+        site.name.toLowerCase().includes(q) ||
+        site.shortName.toLowerCase().includes(q) ||
+        (site.nameEn && site.nameEn.toLowerCase().includes(q)) ||
+        (site.shortNameEn && site.shortNameEn.toLowerCase().includes(q));
+
+      const catMatch =
+        site.category.toLowerCase().includes(q) ||
+        (site.categoryEn && site.categoryEn.toLowerCase().includes(q));
+
+      const tagMatch =
+        (site.tags ?? []).some((t) => t.toLowerCase().includes(q)) ||
+        (site.tagsEn ?? []).some((t) => t.toLowerCase().includes(q));
 
       return categoryMatch && (nameMatch || catMatch || tagMatch);
     });
@@ -67,18 +91,20 @@ export default function App() {
         onViewChange={setView}
         siteCount={filteredSites.length}
         totalSites={SITES.length}
+        lang={lang}
+        onToggleLang={handleToggleLang}
       />
 
       {/* Main Body Area */}
       <div className="flex flex-1 overflow-hidden relative">
         {/* Non-Map Views */}
         {view === "lista" && (
-          <ListView sites={filteredSites} onSelectSite={handleSelectSite} />
+          <ListView sites={filteredSites} onSelectSite={handleSelectSite} lang={lang} />
         )}
         {view === "galería" && (
-          <GalleryView sites={filteredSites} onSelectSite={handleSelectSite} />
+          <GalleryView sites={filteredSites} onSelectSite={handleSelectSite} lang={lang} />
         )}
-        {view === "acerca" && <AboutView />}
+        {view === "acerca" && <AboutView lang={lang} />}
 
         {/* Map View Layout */}
         {view === "mapa" && (
@@ -93,6 +119,7 @@ export default function App() {
               onSearchChange={setSearchQuery}
               isOpen={sidebarOpen}
               onToggleOpen={() => setSidebarOpen((p) => !p)}
+              lang={lang}
             />
 
             {/* Interactive Leaflet Map */}
@@ -104,6 +131,7 @@ export default function App() {
                 onSelectSite={handleSelectSite}
                 activeCategories={activeCategories}
                 onToggleCategory={handleToggleCategory}
+                lang={lang}
               />
             </div>
 
@@ -113,6 +141,7 @@ export default function App() {
                 <DetailPanel
                   site={selectedSite}
                   onClose={() => setSelectedSite(null)}
+                  lang={lang}
                 />
               </div>
             )}
@@ -127,6 +156,7 @@ export default function App() {
                     <DetailPanel
                       site={selectedSite}
                       onClose={() => setSelectedSite(null)}
+                      lang={lang}
                     />
                   </div>
                 </div>
@@ -137,7 +167,12 @@ export default function App() {
       </div>
 
       {/* Mobile Fixed Bottom Navigation Bar */}
-      <MobileNav currentView={view} onViewChange={setView} />
+      <MobileNav
+        currentView={view}
+        onViewChange={setView}
+        lang={lang}
+        onToggleLang={handleToggleLang}
+      />
     </div>
   );
 }

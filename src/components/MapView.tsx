@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
-import { Site } from "../types/site";
-import { CATEGORIES, getCategoryColor } from "../data/categories";
+import { Site, Language } from "../types/site";
+import { CATEGORIES, getCategoryColor, getCategoryLabel } from "../data/categories";
 
 interface MapViewProps {
   sites: Site[];
@@ -11,12 +11,14 @@ interface MapViewProps {
   onSelectSite: (site: Site) => void;
   activeCategories: Set<string>;
   onToggleCategory: (cat: string) => void;
+  lang?: Language;
 }
 
 // Custom Marker Icon generator using HTML Leaflet DivIcon with prominent badge tags
-function createMarkerIcon(site: Site, isActive: boolean) {
+function createMarkerIcon(site: Site, isActive: boolean, lang: Language = "es") {
   const color = getCategoryColor(site.category);
   const pinSize = isActive ? 48 : 40;
+  const displayName = lang === "en" ? (site.shortNameEn || site.shortName) : site.shortName;
 
   return L.divIcon({
     className: "custom-leaflet-marker",
@@ -39,7 +41,7 @@ function createMarkerIcon(site: Site, isActive: boolean) {
           letter-spacing: -0.01em;
           pointer-events: none;
         ">
-          ${site.shortName}
+          ${displayName}
         </div>
 
         <!-- Teardrop Pin Container -->
@@ -115,9 +117,11 @@ function MapController({
 function MapLegend({
   activeCategories,
   onToggleCategory,
+  lang = "es",
 }: {
   activeCategories: Set<string>;
   onToggleCategory: (cat: string) => void;
+  lang?: Language;
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -128,7 +132,7 @@ function MapLegend({
         className="w-full flex items-center justify-between px-3 py-2 text-left bg-none cursor-pointer border-b border-[#f0ebe5]"
       >
         <span className="text-[10px] font-bold uppercase tracking-wider text-[#6b6059] font-mono">
-          Leyenda Categorías
+          {lang === "en" ? "Category Legend" : "Leyenda Categorías"}
         </span>
         <span className={`text-xs text-[#9a8e84] transition-transform ${isOpen ? "rotate-180" : ""}`}>
           ▾
@@ -137,8 +141,9 @@ function MapLegend({
 
       {isOpen && (
         <div className="p-2 space-y-1 max-h-48 overflow-y-auto">
-          {Object.entries(CATEGORIES).map(([key, { color, label }]) => {
+          {Object.entries(CATEGORIES).map(([key, { color }]) => {
             const active = activeCategories.has(key);
+            const label = getCategoryLabel(key, lang);
             return (
               <button
                 key={key}
@@ -151,13 +156,10 @@ function MapLegend({
                   className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                   style={{ backgroundColor: color }}
                 />
-                <span className="text-[#3d3430] truncate text-[11px]">{label}</span>
+                <span className="text-[11px] text-[#3d3430] truncate">{label}</span>
               </button>
             );
           })}
-          <p className="text-[9px] text-[#bdb0a6] font-mono pt-1.5 border-t border-[#f0ebe5] px-1">
-            Haz clic para filtrar marcadores
-          </p>
         </div>
       )}
     </div>
@@ -171,22 +173,22 @@ export default function MapView({
   onSelectSite,
   activeCategories,
   onToggleCategory,
+  lang = "es",
 }: MapViewProps) {
   const markerRefs = useRef<Record<number, L.Marker | null>>({});
 
   return (
-    <div className="relative w-full h-full overflow-hidden bg-[#e8e0d8]">
+    <div className="relative w-full h-full">
       <MapContainer
-        center={[12.4354, -86.8793]}
-        zoom={14}
-        style={{ width: "100%", height: "100%" }}
+        center={[12.435345491333722, -86.87924770224978]}
+        zoom={16}
         zoomControl={false}
+        className="w-full h-full z-0"
       >
         <TileLayer
-          url="https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
-          subdomains={["mt0", "mt1", "mt2", "mt3"]}
-          maxZoom={20}
-          attribution="&copy; Google Maps"
+          attribution='&copy; <a href="https://carto.com/">CARTO</a>'
+          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+          maxZoom={19}
         />
 
         <MapController
@@ -196,35 +198,52 @@ export default function MapView({
         />
 
         {sites.map((site) => {
-          const isSelected = selectedSite?.id === site.id;
+          const isActive = selectedSite?.id === site.id;
+          const color = getCategoryColor(site.category);
+          const displayName = lang === "en" ? (site.nameEn || site.name) : site.name;
+          const displayShortName = lang === "en" ? (site.shortNameEn || site.shortName) : site.shortName;
+          const displayCategory = getCategoryLabel(site.category, lang);
+          const displayDesc = lang === "en" ? (site.descriptionEn || site.description) : site.description;
+
           return (
             <Marker
               key={site.id}
               position={[site.lat, site.lng]}
-              icon={createMarkerIcon(site, isSelected)}
+              icon={createMarkerIcon(site, isActive, lang)}
               ref={(ref) => {
                 markerRefs.current[site.id] = ref;
               }}
-              eventHandlers={{ click: () => onSelectSite(site) }}
-              zIndexOffset={isSelected ? 1000 : 0}
+              eventHandlers={{
+                click: () => onSelectSite(site),
+              }}
             >
-              <Popup autoPan={false}>
-                <div className="p-1 min-w-[180px] max-w-[220px]">
-                  <div className="flex items-center gap-1.5">
+              <Popup className="custom-leaflet-popup">
+                <div className="p-1 min-w-[200px] max-w-[240px]">
+                  <div className="flex items-center gap-1.5 mb-1">
                     <span className="text-base">{site.emoji}</span>
-                    <p
-                      className="text-xs font-bold font-['Outfit',sans-serif] leading-tight"
-                      style={{ color: getCategoryColor(site.category) }}
+                    <span
+                      className="text-[10px] font-bold font-['Outfit',sans-serif] px-2 py-0.5 rounded-full text-white"
+                      style={{ backgroundColor: color }}
                     >
-                      {site.shortName}
-                    </p>
+                      {displayCategory}
+                    </span>
                   </div>
-                  <p className="text-[10px] text-[#9a8e84] font-mono mt-1">
-                    {site.lat.toFixed(4)}°N · {Math.abs(site.lng).toFixed(4)}°O
+
+                  <h3 className="font-['Outfit',sans-serif] font-bold text-sm text-[#1a1612] leading-snug">
+                    {displayShortName}
+                  </h3>
+
+                  <p className="text-[11px] text-[#6b6059] mt-1 line-clamp-2 leading-relaxed">
+                    {displayDesc}
                   </p>
-                  <p className="text-[10px] text-[#6b6059] mt-1.5 line-clamp-2 leading-snug">
-                    {site.description}
-                  </p>
+
+                  <button
+                    onClick={() => onSelectSite(site)}
+                    className="w-full mt-2 py-1 px-2 text-white font-['Outfit',sans-serif] font-bold text-xs rounded-lg transition-transform active:scale-95 shadow-xs cursor-pointer text-center block"
+                    style={{ backgroundColor: color }}
+                  >
+                    {lang === "en" ? "View Details & Audio" : "Ver Ficha y Audio"}
+                  </button>
                 </div>
               </Popup>
             </Marker>
@@ -232,14 +251,12 @@ export default function MapView({
         })}
       </MapContainer>
 
-      {/* Category Legend */}
-      <MapLegend activeCategories={activeCategories} onToggleCategory={onToggleCategory} />
-
-      {/* Map Badge Info */}
-      <div className="absolute bottom-16 sm:bottom-4 left-3 z-[500] bg-white/85 border border-[#e5ddd5] rounded-lg px-2.5 py-1 text-[10px] font-mono text-[#9a8e84] backdrop-blur-xs shadow-xs hidden xs:block">
-        Google Maps · León, Nicaragua
-      </div>
+      {/* Category Legend Overlay */}
+      <MapLegend
+        activeCategories={activeCategories}
+        onToggleCategory={onToggleCategory}
+        lang={lang}
+      />
     </div>
   );
 }
-

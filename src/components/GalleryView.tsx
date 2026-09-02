@@ -1,14 +1,18 @@
 import { useState } from "react";
-import { Site } from "../types/site";
+import { Site, Language } from "../types/site";
 import { getCategoryColor } from "../data/categories";
+import { UI_TRANSLATIONS } from "../data/translations";
 import Lightbox from "./Lightbox";
 
 interface GalleryViewProps {
   sites: Site[];
   onSelectSite: (site: Site) => void;
+  lang?: Language;
 }
 
-export default function GalleryView({ sites, onSelectSite }: GalleryViewProps) {
+export default function GalleryView({ sites, onSelectSite, lang = "es" }: GalleryViewProps) {
+  const t = UI_TRANSLATIONS[lang];
+
   const allImages = sites.flatMap((site) =>
     (site.images ?? []).map((img) => ({ img, site }))
   );
@@ -28,10 +32,13 @@ export default function GalleryView({ sites, onSelectSite }: GalleryViewProps) {
       <div className="max-w-6xl mx-auto">
         <div className="mb-6">
           <h2 className="font-['Outfit',sans-serif] text-xl sm:text-2xl font-bold text-[#1a1612]">
-            Galería Fotográfica de León
+            {t.galleryTitle}
           </h2>
           <p className="text-xs sm:text-sm text-[#9a8e84]">
-            {allImages.length} fotografías en alta resolución de la ciudad y sus alrededores
+            {allImages.length}{" "}
+            {lang === "en"
+              ? "high-resolution photographs of León's 6 historic monuments"
+              : "fotografías en alta resolución de los 6 monumentos históricos de León"}
           </p>
         </div>
 
@@ -39,6 +46,7 @@ export default function GalleryView({ sites, onSelectSite }: GalleryViewProps) {
         <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
           {allImages.map(({ img, site }, index) => {
             const color = getCategoryColor(site.category);
+            const displayName = lang === "en" ? (site.shortNameEn || site.shortName) : site.shortName;
 
             return (
               <div
@@ -48,13 +56,13 @@ export default function GalleryView({ sites, onSelectSite }: GalleryViewProps) {
               >
                 <img
                   src={img}
-                  alt={site.name}
+                  alt={displayName}
                   className="w-full h-auto object-cover block group-hover:scale-105 transition-transform duration-300"
                 />
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col justify-between p-3">
                   <div className="self-end bg-black/40 text-white text-[10px] px-2 py-0.5 rounded font-mono backdrop-blur-xs">
-                    🔍 Ampliar
+                    🔍 {lang === "en" ? "Zoom" : "Ampliar"}
                   </div>
 
                   <button
@@ -66,7 +74,7 @@ export default function GalleryView({ sites, onSelectSite }: GalleryViewProps) {
                     style={{ backgroundColor: color }}
                   >
                     <span>{site.emoji}</span>
-                    <span>{site.shortName}</span>
+                    <span>{displayName}</span>
                   </button>
                 </div>
               </div>

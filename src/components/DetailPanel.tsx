@@ -1,11 +1,13 @@
 import { useState, useRef, useEffect } from "react";
-import { Site } from "../types/site";
-import { getCategoryColor, getCategoryAccent } from "../data/categories";
+import { Site, Language } from "../types/site";
+import { getCategoryColor, getCategoryAccent, getCategoryLabel } from "../data/categories";
+import { UI_TRANSLATIONS } from "../data/translations";
 import Lightbox from "./Lightbox";
 
 interface DetailPanelProps {
   site: Site;
   onClose: () => void;
+  lang?: Language;
 }
 
 function Stars({ rating }: { rating: number }) {
@@ -30,7 +32,8 @@ function formatTime(sec: number): string {
   return `${m}:${s < 10 ? "0" : ""}${s}`;
 }
 
-export default function DetailPanel({ site, onClose }: DetailPanelProps) {
+export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelProps) {
+  const t = UI_TRANSLATIONS[lang];
   const [lbIdx, setLbIdx] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<"ficha" | "resumen">("ficha");
 
@@ -47,7 +50,31 @@ export default function DetailPanel({ site, onClose }: DetailPanelProps) {
       ? site.images
       : ["https://images.unsplash.com/photo-1684861746842-7115e4530437?w=900&h=600&fit=crop&auto=format"];
 
-  // Reset audio playback when switching to a different site
+  // Language & Site translations helper
+  const displayName = lang === "en" ? (site.nameEn || site.name) : site.name;
+  const displayShortName = lang === "en" ? (site.shortNameEn || site.shortName) : site.shortName;
+  const displayDescription = lang === "en" ? (site.descriptionEn || site.description) : site.description;
+  const displayHistory = lang === "en" ? (site.historyEn || site.history) : site.history;
+  const displayTips = lang === "en" ? (site.tipsEn || site.tips) : site.tips;
+  const displaySchedule = lang === "en" ? (site.scheduleEn || site.schedule) : site.schedule;
+  const displayEntrance = lang === "en" ? (site.entranceEn || site.entrance) : site.entrance;
+  const displayDuration = lang === "en" ? (site.durationEn || site.duration) : site.duration;
+  const displayDifficulty = lang === "en" ? (site.difficultyEn || site.difficulty) : site.difficulty;
+  const displayTags = lang === "en" ? (site.tagsEn || site.tags) : site.tags;
+  const displayCategory = getCategoryLabel(site.category, lang);
+
+  const currentAudioUrl = lang === "en" ? (site.audioUrlEn || site.audioUrl) : site.audioUrl;
+
+  const details = site.details ?? {};
+  const dOfficialName = lang === "en" ? (details.officialNameEn || details.officialName) : details.officialName;
+  const dConstDate = lang === "en" ? (details.constructionDateEn || details.constructionDate) : details.constructionDate;
+  const dArchitect = lang === "en" ? (details.architectEn || details.architect) : details.architect;
+  const dFunction = lang === "en" ? (details.functionInfoEn || details.functionInfo) : details.functionInfo;
+  const dStyle = lang === "en" ? (details.architecturalStyleEn || details.architecturalStyle) : details.architecturalStyle;
+  const dImportance = lang === "en" ? (details.historicalImportanceEn || details.historicalImportance) : details.historicalImportance;
+  const dDistinctive = lang === "en" ? (details.distinctiveElementsEn || details.distinctiveElements) : details.distinctiveElements;
+
+  // Reset audio playback when switching to a different site or toggling language
   useEffect(() => {
     setIsPlaying(false);
     setCurrentTime(0);
@@ -55,8 +82,9 @@ export default function DetailPanel({ site, onClose }: DetailPanelProps) {
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
+      audioRef.current.load();
     }
-  }, [site.id]);
+  }, [site.id, lang]);
 
   const toggleAudio = () => {
     if (!audioRef.current) return;
@@ -98,13 +126,11 @@ export default function DetailPanel({ site, onClose }: DetailPanelProps) {
   };
 
   const openGoogleMapsLocation = () => {
-    // Redirige directamente a la Ficha Oficial usando el título exacto en Google Maps
     const searchQuery = site.googleMapsQuery || site.name;
     const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(searchQuery)}`;
     window.open(url, "_blank");
   };
 
-  const details = site.details ?? {};
   const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
@@ -113,10 +139,10 @@ export default function DetailPanel({ site, onClose }: DetailPanelProps) {
         <Lightbox images={images} startIndex={lbIdx} onClose={() => setLbIdx(null)} />
       )}
 
-      {/* Elemento de Audio HTML5 cargado con la URL oficial de la atracción */}
+      {/* Elemento de Audio HTML5 cargado con la URL correspondiente al idioma activo */}
       <audio
         ref={audioRef}
-        src={site.audioUrl || ""}
+        src={currentAudioUrl || ""}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
         onDurationChange={handleLoadedMetadata}
@@ -131,7 +157,7 @@ export default function DetailPanel({ site, onClose }: DetailPanelProps) {
         <div className="relative h-52 sm:h-56 flex-shrink-0 bg-[#e8e0d8]">
           <img
             src={images[0]}
-            alt={site.name}
+            alt={displayName}
             onClick={() => setLbIdx(0)}
             className="w-full h-full object-cover cursor-zoom-in block"
           />
@@ -154,7 +180,7 @@ export default function DetailPanel({ site, onClose }: DetailPanelProps) {
           <button
             onClick={onClose}
             className="absolute top-3 right-3 w-8 h-8 bg-white/90 hover:bg-white text-[#6b6059] border border-[#e5ddd5] rounded-lg text-lg flex items-center justify-center cursor-pointer shadow-sm transition-colors z-20"
-            title="Cerrar detalles"
+            title={t.btnClose}
           >
             ×
           </button>
@@ -165,7 +191,7 @@ export default function DetailPanel({ site, onClose }: DetailPanelProps) {
             style={{ backgroundColor: color }}
           >
             <span>{site.emoji}</span>
-            <span>{site.category}</span>
+            <span>{displayCategory}</span>
           </div>
         </div>
 
@@ -174,7 +200,7 @@ export default function DetailPanel({ site, onClose }: DetailPanelProps) {
           {/* Title and Rating */}
           <div>
             <h2 className="text-xl font-bold font-['Outfit',sans-serif] text-[#1a1612] leading-snug">
-              {site.name}
+              {displayName}
             </h2>
             <div className="flex items-center gap-2 mt-1.5">
               <Stars rating={site.rating ?? 4.8} />
@@ -182,25 +208,25 @@ export default function DetailPanel({ site, onClose }: DetailPanelProps) {
                 {site.rating ?? 4.8}
               </span>
               <span className="text-xs text-[#9a8e84]">
-                ({(site.reviews ?? 300).toLocaleString("es-NI")} reseñas)
+                ({(site.reviews ?? 300).toLocaleString("es-NI")} {lang === "en" ? "reviews" : "reseñas"})
               </span>
             </div>
 
             {/* Tags */}
             <div className="flex flex-wrap gap-1.5 mt-2.5">
-              {(site.tags ?? []).map((t) => (
+              {(displayTags ?? []).map((tag) => (
                 <span
-                  key={t}
+                  key={tag}
                   className="px-2.5 py-0.5 rounded-full text-[10px] font-['Outfit',sans-serif] font-semibold border"
                   style={{ backgroundColor: accent, color: color, borderColor: `${color}40` }}
                 >
-                  #{t}
+                  #{tag}
                 </span>
               ))}
             </div>
           </div>
 
-          {/* Audio Player Widget con Barra de Progreso y Tiempo */}
+          {/* Audio Player Widget */}
           <div className="bg-gradient-to-r from-[#1a1612] to-[#362b25] text-white rounded-2xl p-4 shadow-md border border-[#4a3d35] flex flex-col gap-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3 min-w-0">
@@ -208,7 +234,7 @@ export default function DetailPanel({ site, onClose }: DetailPanelProps) {
                   onClick={toggleAudio}
                   className="w-11 h-11 rounded-full flex items-center justify-center text-white text-lg shadow-lg transition-transform active:scale-95 cursor-pointer flex-shrink-0"
                   style={{ backgroundColor: color }}
-                  title={isPlaying ? "Pausar audioguía" : "Reproducir audioguía"}
+                  title={isPlaying ? t.audioPaused : t.audioPlaying}
                 >
                   {isPlaying ? "⏸" : "▶"}
                 </button>
@@ -216,11 +242,11 @@ export default function DetailPanel({ site, onClose }: DetailPanelProps) {
                   <div className="flex items-center gap-1.5">
                     <span className="text-xs">🎧</span>
                     <p className="text-xs font-bold font-['Outfit',sans-serif] truncate text-white">
-                      Audioguía Narrada
+                      {t.audioTitle}
                     </p>
                   </div>
                   <p className="text-[10px] text-[#c4b6ab] truncate mt-0.5">
-                    {site.shortName} · Recorrido Auditivo
+                    {displayShortName} · {lang === "en" ? "English Audio" : "Español Audio"}
                   </p>
                 </div>
               </div>
@@ -249,259 +275,200 @@ export default function DetailPanel({ site, onClose }: DetailPanelProps) {
             <div className="flex flex-col gap-1 mt-1">
               <div
                 onClick={handleSeek}
-                className="relative w-full bg-white/20 hover:bg-white/30 h-2.5 rounded-full cursor-pointer overflow-hidden transition-colors group"
-                title="Toca para adelantar o retroceder el audio"
+                className="w-full h-2 bg-[#4a3d35] rounded-full overflow-hidden cursor-pointer relative group"
               >
                 <div
-                  className="h-full rounded-full transition-all duration-100 relative"
-                  style={{
-                    width: `${progressPercent}%`,
-                    backgroundColor: color,
-                  }}
+                  className="h-full bg-gradient-to-r from-[#e97c2e] to-[#fcd5b8] rounded-full transition-all duration-100"
+                  style={{ width: `${progressPercent}%` }}
                 />
               </div>
 
-              {/* Indicadores de Avance y Tiempo Total */}
-              <div className="flex items-center justify-between text-[10px] font-mono text-[#c4b6ab] pt-0.5">
+              {/* Visor de Tiempo mm:ss */}
+              <div className="flex items-center justify-between text-[10px] font-mono text-[#c4b6ab]">
                 <span>{formatTime(currentTime)}</span>
-                <span className="text-[9px] text-[#a39588]">
-                  {isPlaying ? "▶ Reproduciendo" : "Pausado"}
-                </span>
                 <span>{formatTime(duration)}</span>
               </div>
             </div>
           </div>
 
-          {/* Section Tabs */}
-          <div className="flex bg-[#f7f4f1] border border-[#e5ddd5] rounded-xl overflow-hidden p-1 gap-1">
+          {/* Action Button: Google Maps Pin */}
+          <button
+            onClick={openGoogleMapsLocation}
+            className="w-full py-2.5 px-4 bg-white border-2 border-[#1a1612] hover:bg-[#1a1612] hover:text-white text-[#1a1612] rounded-xl font-['Outfit',sans-serif] font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer group active:scale-98"
+          >
+            <span className="text-base group-hover:scale-110 transition-transform">📍</span>
+            <span>{t.btnMaps}</span>
+          </button>
+
+          {/* Tab Selector */}
+          <div className="flex border-b border-[#e5ddd5] gap-4">
             <button
               onClick={() => setActiveTab("ficha")}
-              className={`flex-1 py-1.5 text-xs font-bold font-['Outfit',sans-serif] rounded-lg transition-all cursor-pointer ${
+              className={`pb-2 text-xs font-bold font-['Outfit',sans-serif] transition-colors cursor-pointer border-b-2 ${
                 activeTab === "ficha"
-                  ? "bg-white text-[#1a1612] shadow-xs"
-                  : "text-[#6b6059] hover:text-[#1a1612]"
+                  ? "border-[#c2622a] text-[#c2622a]"
+                  : "border-transparent text-[#9a8e84] hover:text-[#6b6059]"
               }`}
             >
-              🏛️ Ficha Arquitectónica
+              {t.tabFicha}
             </button>
             <button
               onClick={() => setActiveTab("resumen")}
-              className={`flex-1 py-1.5 text-xs font-bold font-['Outfit',sans-serif] rounded-lg transition-all cursor-pointer ${
+              className={`pb-2 text-xs font-bold font-['Outfit',sans-serif] transition-colors cursor-pointer border-b-2 ${
                 activeTab === "resumen"
-                  ? "bg-white text-[#1a1612] shadow-xs"
-                  : "text-[#6b6059] hover:text-[#1a1612]"
+                  ? "border-[#c2622a] text-[#c2622a]"
+                  : "border-transparent text-[#9a8e84] hover:text-[#6b6059]"
               }`}
             >
-              📖 Resumen & Visita
+              {t.tabResumen}
             </button>
           </div>
 
-          {/* TAB 1: FICHA ARQUITECTÓNICA & HISTÓRICA ESTRUCTURADA */}
+          {/* TAB 1: FICHA ARQUITECTÓNICA COMPLETA */}
           {activeTab === "ficha" && (
-            <div className="flex flex-col gap-3.5">
-              {/* Grid: Nombre, Año, Arquitecto, Estilo */}
-              <div className="grid grid-cols-2 gap-2.5">
-                <div className="bg-[#faf8f6] border border-[#e5ddd5] rounded-xl p-3">
-                  <span className="text-xs">🏢</span>
-                  <p className="text-[9px] font-bold uppercase tracking-wider text-[#9a8e84] font-mono mt-1">
-                    Nombre del Edificio
+            <div className="flex flex-col gap-3">
+              {dOfficialName && (
+                <div className="p-3 bg-[#faf7f4] border border-[#e5ddd5] rounded-xl">
+                  <p className="text-[10px] font-bold font-mono uppercase tracking-wider text-[#9a8e84]">
+                    {t.fieldBuilding}
                   </p>
-                  <p className="text-xs font-bold text-[#1a1612] mt-0.5 leading-snug">
-                    {details.officialName || site.name}
-                  </p>
-                </div>
-
-                <div className="bg-[#faf8f6] border border-[#e5ddd5] rounded-xl p-3">
-                  <span className="text-xs">📅</span>
-                  <p className="text-[9px] font-bold uppercase tracking-wider text-[#9a8e84] font-mono mt-1">
-                    Año / Época
-                  </p>
-                  <p className="text-xs font-bold text-[#1a1612] mt-0.5 leading-snug">
-                    {details.constructionDate || "Siglo XIX"}
-                  </p>
-                </div>
-
-                <div className="bg-[#faf8f6] border border-[#e5ddd5] rounded-xl p-3">
-                  <span className="text-xs">📐</span>
-                  <p className="text-[9px] font-bold uppercase tracking-wider text-[#9a8e84] font-mono mt-1">
-                    Arquitecto / Constructor
-                  </p>
-                  <p className="text-xs font-bold text-[#1a1612] mt-0.5 leading-snug">
-                    {details.architect || "No registrado"}
-                  </p>
-                </div>
-
-                <div className="bg-[#faf8f6] border border-[#e5ddd5] rounded-xl p-3">
-                  <span className="text-xs">🎨</span>
-                  <p className="text-[9px] font-bold uppercase tracking-wider text-[#9a8e84] font-mono mt-1">
-                    Estilo Arquitectónico
-                  </p>
-                  <p className="text-xs font-bold mt-0.5 leading-snug" style={{ color }}>
-                    {details.architecturalStyle || "Colonial / Ecléctico"}
-                  </p>
-                </div>
-              </div>
-
-              {/* Uso y Función */}
-              <div className="bg-[#faf8f6] border border-[#e5ddd5] rounded-xl p-3.5 flex flex-col gap-1">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-sm">🔄</span>
-                  <h4 className="text-xs font-bold font-['Outfit',sans-serif] text-[#1a1612]">
-                    Uso y Función (Original vs Actual)
-                  </h4>
-                </div>
-                <p className="text-xs text-[#4a423d] leading-relaxed mt-1">
-                  {details.functionInfo || site.description}
-                </p>
-              </div>
-
-              {/* Importancia Histórica y Arquitectónica */}
-              <div
-                className="rounded-xl p-3.5 border flex flex-col gap-1.5 shadow-2xs"
-                style={{ backgroundColor: accent, borderColor: `${color}40` }}
-              >
-                <div className="flex items-center gap-1.5">
-                  <span className="text-sm">📜</span>
-                  <h4
-                    className="text-xs font-bold font-['Outfit',sans-serif]"
-                    style={{ color }}
-                  >
-                    Importancia Histórica y Arquitectónica
-                  </h4>
-                </div>
-                <p className="text-xs text-[#3d3430] leading-relaxed">
-                  {details.historicalImportance || site.history}
-                </p>
-              </div>
-
-              {/* Elementos Distintivos */}
-              <div className="bg-[#faf8f6] border border-[#e5ddd5] rounded-xl p-3.5 flex flex-col gap-1">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-sm">✨</span>
-                  <h4 className="text-xs font-bold font-['Outfit',sans-serif] text-[#1a1612]">
-                    Elementos Distintivos
-                  </h4>
-                </div>
-                <p className="text-xs text-[#4a423d] leading-relaxed mt-1">
-                  {details.distinctiveElements || "Detalles arquitectónicos únicos."}
-                </p>
-              </div>
-            </div>
-          )}
-
-          {/* TAB 2: RESUMEN GENERAL & DATOS PRÁCTICOS */}
-          {activeTab === "resumen" && (
-            <div className="flex flex-col gap-3.5">
-              {/* General Description */}
-              <div className="bg-[#faf8f6] border border-[#e5ddd5] rounded-xl p-3.5 text-xs text-[#4a423d] leading-relaxed">
-                <h4 className="text-xs font-bold font-['Outfit',sans-serif] text-[#1a1612] mb-1.5">
-                  Resumen de la Atracción
-                </h4>
-                {site.description}
-              </div>
-
-              {/* Reseña Histórica Extendida */}
-              {site.history && (
-                <div className="bg-[#faf8f6] border border-[#e5ddd5] rounded-xl p-3.5 text-xs text-[#4a423d] leading-relaxed">
-                  <h4 className="text-xs font-bold font-['Outfit',sans-serif] text-[#1a1612] mb-1.5">
-                    Contexto Histórico
-                  </h4>
-                  {site.history}
+                  <p className="text-xs font-semibold text-[#1a1612] mt-0.5">{dOfficialName}</p>
                 </div>
               )}
 
-              {/* Practical Stats */}
-              <div className="grid grid-cols-3 gap-2">
-                <div className="bg-[#f7f4f1] border border-[#e5ddd5] rounded-xl p-2.5 text-center">
-                  <span className="text-base">🎟️</span>
-                  <p className="text-[9px] text-[#9a8e84] mt-0.5">Entrada</p>
-                  <p className="text-[10px] font-semibold text-[#3d3430] truncate mt-0.5">
-                    {site.entrance || "Libre"}
-                  </p>
-                </div>
-                <div className="bg-[#f7f4f1] border border-[#e5ddd5] rounded-xl p-2.5 text-center">
-                  <span className="text-base">⏱️</span>
-                  <p className="text-[9px] text-[#9a8e84] mt-0.5">Duración</p>
-                  <p className="text-[10px] font-semibold text-[#3d3430] truncate mt-0.5">
-                    {site.duration || "45 min"}
-                  </p>
-                </div>
-                <div className="bg-[#f7f4f1] border border-[#e5ddd5] rounded-xl p-2.5 text-center">
-                  <span className="text-base">📊</span>
-                  <p className="text-[9px] text-[#9a8e84] mt-0.5">Dificultad</p>
-                  <p className="text-[10px] font-semibold text-[#3d3430] truncate mt-0.5">
-                    {site.difficulty || "Fácil"}
-                  </p>
-                </div>
-              </div>
-
-              {/* Schedule and Visitors */}
               <div className="grid grid-cols-2 gap-2">
-                <div className="bg-[#f7f4f1] border border-[#e5ddd5] rounded-xl p-2.5">
-                  <p className="text-[10px] text-[#9a8e84] font-medium">🕐 Horario</p>
-                  <p className="text-[11px] font-semibold text-[#3d3430] mt-0.5 leading-snug">
-                    {site.schedule || "Consulta en el sitio"}
-                  </p>
-                </div>
-                <div className="bg-[#f7f4f1] border border-[#e5ddd5] rounded-xl p-2.5">
-                  <p className="text-[10px] text-[#9a8e84] font-medium">👥 Visitantes</p>
-                  <p className="text-xs font-bold font-mono mt-0.5" style={{ color }}>
-                    {site.visitors || "20.000/año"}
-                  </p>
-                </div>
+                {dConstDate && (
+                  <div className="p-2.5 bg-[#faf7f4] border border-[#e5ddd5] rounded-xl">
+                    <p className="text-[9px] font-bold font-mono uppercase tracking-wider text-[#9a8e84]">
+                      {t.fieldYear}
+                    </p>
+                    <p className="text-xs font-medium text-[#1a1612] mt-0.5">{dConstDate}</p>
+                  </div>
+                )}
+
+                {dArchitect && (
+                  <div className="p-2.5 bg-[#faf7f4] border border-[#e5ddd5] rounded-xl">
+                    <p className="text-[9px] font-bold font-mono uppercase tracking-wider text-[#9a8e84]">
+                      {t.fieldArchitect}
+                    </p>
+                    <p className="text-xs font-medium text-[#1a1612] mt-0.5">{dArchitect}</p>
+                  </div>
+                )}
               </div>
 
-              {/* Tips Box */}
-              {site.tips && (
-                <div className="bg-[#fffbeb] border border-[#fef3c7] rounded-xl p-3.5 text-xs text-[#92400e]">
-                  <p className="font-bold font-['Outfit',sans-serif] mb-1 flex items-center gap-1">
-                    <span>💡</span> Recomendación de Visita
+              {dStyle && (
+                <div className="p-3 bg-[#faf7f4] border border-[#e5ddd5] rounded-xl">
+                  <p className="text-[10px] font-bold font-mono uppercase tracking-wider text-[#9a8e84]">
+                    {t.fieldStyle}
                   </p>
-                  <p className="leading-relaxed">{site.tips}</p>
+                  <p className="text-xs font-medium text-[#1a1612] mt-0.5">{dStyle}</p>
+                </div>
+              )}
+
+              {dFunction && (
+                <div className="p-3 bg-[#faf7f4] border border-[#e5ddd5] rounded-xl">
+                  <p className="text-[10px] font-bold font-mono uppercase tracking-wider text-[#9a8e84]">
+                    {t.fieldFunction}
+                  </p>
+                  <p className="text-xs text-[#4a423d] leading-relaxed mt-0.5">{dFunction}</p>
+                </div>
+              )}
+
+              {dImportance && (
+                <div className="p-3 bg-[#faf7f4] border border-[#e5ddd5] rounded-xl">
+                  <p className="text-[10px] font-bold font-mono uppercase tracking-wider text-[#9a8e84]">
+                    {t.fieldImportance}
+                  </p>
+                  <p className="text-xs text-[#4a423d] leading-relaxed mt-0.5">{dImportance}</p>
+                </div>
+              )}
+
+              {dDistinctive && (
+                <div className="p-3 bg-[#faf7f4] border border-[#e5ddd5] rounded-xl">
+                  <p className="text-[10px] font-bold font-mono uppercase tracking-wider text-[#9a8e84]">
+                    {t.fieldDistinctive}
+                  </p>
+                  <p className="text-xs text-[#4a423d] leading-relaxed mt-0.5">{dDistinctive}</p>
                 </div>
               )}
             </div>
           )}
 
-          {/* GPS Coordinates Box */}
-          <div className="bg-[#f7f4f1] border border-[#e5ddd5] rounded-xl p-3 flex gap-3 items-center">
-            <div
-              className="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0 shadow-xs"
-              style={{ backgroundColor: color }}
-            >
-              📍
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-[9px] font-bold uppercase tracking-wider text-[#9a8e84] font-mono mb-0.5">
-                Coordenadas GPS · WGS84
-              </p>
-              <div className="flex gap-4">
+          {/* TAB 2: RESUMEN Y DATOS PRÁCTICOS DE VISITA */}
+          {activeTab === "resumen" && (
+            <div className="flex flex-col gap-3">
+              {displayDescription && (
                 <div>
-                  <p className="text-[10px] text-[#9a8e84]">Latitud</p>
-                  <p className="text-xs font-bold font-mono" style={{ color }}>
-                    {site.lat.toFixed(4)}° N
-                  </p>
+                  <h4 className="text-xs font-bold font-mono uppercase text-[#9a8e84]">
+                    {t.fieldOverview}
+                  </h4>
+                  <p className="text-xs text-[#3d3430] leading-relaxed mt-1">{displayDescription}</p>
                 </div>
-                <div>
-                  <p className="text-[10px] text-[#9a8e84]">Longitud</p>
-                  <p className="text-xs font-bold font-mono" style={{ color }}>
-                    {Math.abs(site.lng).toFixed(4)}° O
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+              )}
 
-          {/* Google Maps Action Button */}
-          <div className="mt-1 pb-2">
-            <button
-              onClick={openGoogleMapsLocation}
-              className="w-full py-3 px-4 rounded-xl text-white font-bold font-['Outfit',sans-serif] text-xs sm:text-sm tracking-wide shadow-md hover:opacity-95 active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
-              style={{ backgroundColor: color }}
-            >
-              <span>📍</span>
-              <span>Ver pin exacto en Google Maps</span>
-            </button>
+              {displayHistory && (
+                <div className="p-3 bg-[#fdfaf7] border border-[#e5ddd5] rounded-xl">
+                  <h4 className="text-xs font-bold font-mono uppercase text-[#9a8e84]">
+                    {t.fieldHistoryContext}
+                  </h4>
+                  <p className="text-xs text-[#4a423d] leading-relaxed mt-1">{displayHistory}</p>
+                </div>
+              )}
+
+              {/* Practical Visit Info Grid */}
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                {displayEntrance && (
+                  <div className="p-2 bg-[#f7f4f1] rounded-lg">
+                    <span className="text-[9px] font-bold font-mono text-[#9a8e84] block">
+                      {t.fieldEntrance}
+                    </span>
+                    <span className="font-semibold text-[#1a1612]">{displayEntrance}</span>
+                  </div>
+                )}
+                {displayDuration && (
+                  <div className="p-2 bg-[#f7f4f1] rounded-lg">
+                    <span className="text-[9px] font-bold font-mono text-[#9a8e84] block">
+                      {t.fieldDuration}
+                    </span>
+                    <span className="font-semibold text-[#1a1612]">{displayDuration}</span>
+                  </div>
+                )}
+                {displayDifficulty && (
+                  <div className="p-2 bg-[#f7f4f1] rounded-lg">
+                    <span className="text-[9px] font-bold font-mono text-[#9a8e84] block">
+                      {t.fieldDifficulty}
+                    </span>
+                    <span className="font-semibold text-[#1a1612]">{displayDifficulty}</span>
+                  </div>
+                )}
+                {displaySchedule && (
+                  <div className="p-2 bg-[#f7f4f1] rounded-lg">
+                    <span className="text-[9px] font-bold font-mono text-[#9a8e84] block">
+                      {t.fieldSchedule}
+                    </span>
+                    <span className="font-semibold text-[#1a1612]">{displaySchedule}</span>
+                  </div>
+                )}
+              </div>
+
+              {displayTips && (
+                <div className="p-3 bg-amber-50 border border-amber-200/80 rounded-xl text-xs text-[#7c4d25] leading-relaxed">
+                  <span className="font-bold block mb-0.5">💡 {t.fieldTips}</span>
+                  {displayTips}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Coordinates Bar */}
+          <div className="p-3 bg-[#f7f4f1] border border-[#e5ddd5] rounded-xl flex items-center justify-between text-[11px] font-mono text-[#6b6059]">
+            <div>
+              <span className="text-[#9a8e84] block text-[9px]">{t.fieldGPS}</span>
+              <span className="font-bold">
+                {site.lat.toFixed(4)}, {site.lng.toFixed(4)}
+              </span>
+            </div>
+            <span className="text-[10px] text-[#9a8e84]">WGS84</span>
           </div>
         </div>
       </div>

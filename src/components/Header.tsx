@@ -1,20 +1,32 @@
-import { AppView } from "../types/site";
+import { AppView, Language } from "../types/site";
+import { UI_TRANSLATIONS } from "../data/translations";
 
 interface HeaderProps {
   currentView: AppView;
   onViewChange: (view: AppView) => void;
   siteCount: number;
   totalSites: number;
+  lang: Language;
+  onToggleLang: () => void;
 }
 
-const NAV_ITEMS: { key: AppView; label: string; icon: string }[] = [
-  { key: "mapa",    label: "Mapa",    icon: "🗺️" },
-  { key: "lista",   label: "Lista",   icon: "☰" },
-  { key: "galería", label: "Galería", icon: "⊞" },
-  { key: "acerca",  label: "Acerca",  icon: "ℹ" },
-];
+export default function Header({
+  currentView,
+  onViewChange,
+  siteCount,
+  totalSites,
+  lang,
+  onToggleLang,
+}: HeaderProps) {
+  const t = UI_TRANSLATIONS[lang];
 
-export default function Header({ currentView, onViewChange, siteCount, totalSites }: HeaderProps) {
+  const NAV_ITEMS: { key: AppView; label: string; icon: string }[] = [
+    { key: "mapa", label: t.viewMapa, icon: "🗺️" },
+    { key: "lista", label: t.viewLista, icon: "☰" },
+    { key: "galería", label: t.viewGaleria, icon: "⊞" },
+    { key: "acerca", label: t.viewAcerca, icon: "ℹ" },
+  ];
+
   return (
     <header className="flex items-center justify-between px-4 sm:px-6 h-14 flex-shrink-0 bg-white border-b border-[#e5ddd5] shadow-xs z-10">
       {/* Brand Logo */}
@@ -53,12 +65,23 @@ export default function Header({ currentView, onViewChange, siteCount, totalSite
         })}
       </nav>
 
-      {/* Badge / Stats */}
-      <div className="flex items-center gap-2">
-        <div className="flex items-center gap-1.5 px-3 py-1 bg-[#f7f4f1] border border-[#e5ddd5] rounded-full text-xs text-[#6b6059] font-['JetBrains_Mono',monospace]">
+      {/* Language Toggle & Stats */}
+      <div className="flex items-center gap-2.5">
+        {/* Language Switcher Switch */}
+        <button
+          onClick={onToggleLang}
+          className="flex items-center gap-1.5 px-3 py-1 bg-[#1a1612] hover:bg-[#322822] text-white border border-[#4a3d35] rounded-full text-xs font-bold font-['Outfit',sans-serif] transition-all cursor-pointer shadow-xs active:scale-95"
+          title={lang === "es" ? "Switch to English" : "Cambiar a Español"}
+        >
+          <span className="text-sm">{lang === "es" ? "🇬🇧" : "🇪🇸"}</span>
+          <span>{lang === "es" ? "English" : "Español"}</span>
+        </button>
+
+        {/* Counter Badge */}
+        <div className="hidden xs:flex items-center gap-1.5 px-3 py-1 bg-[#f7f4f1] border border-[#e5ddd5] rounded-full text-xs text-[#6b6059] font-['JetBrains_Mono',monospace]">
           <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
           <span className="font-semibold text-[#3d3430]">{siteCount}</span>
-          <span className="hidden xs:inline text-[#9a8e84]">/ {totalSites} sitios</span>
+          <span className="text-[#9a8e84]">/ {totalSites}</span>
         </div>
       </div>
     </header>

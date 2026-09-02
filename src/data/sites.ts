@@ -29,6 +29,7 @@ export const SITES: Site[] = [
     ],
     tags: ["Art Déco", "Gobierno", "Historia", "Plaza Mayor"],
     audioUrl: "/audios/alcaldia.mp3",
+    audioUrlEn: "/audios_en/alcaldiaingles.mp3",
     googleMapsQuery: "Alcaldía Municipal de León",
     details: {
       officialName: "Alcaldía Municipal de León",
@@ -37,8 +38,30 @@ export const SITES: Site[] = [
       functionInfo: "Original y Actual: Sede del gobierno municipal y principal órgano político administrativo de León.",
       architecturalStyle: "Art Déco de los años 20 (Volumetría rectangular con simetría de vanos verticales y horizontales)",
       historicalImportance: "Ocupa el solar fundacional de la Plaza Mayor establecida en 1573 por las Ordenanzas de Nueva Población de Felipe II.",
-      distinctiveElements: "Balcón de fachada que acentúa el relieve del edificio; interior dividido entre área administrativa y sector cultural-recreativo."
-    }
+      distinctiveElements: "Balcón de fachada que acentúa el relieve del edificio; interior dividido entre área administrativa y sector cultural-recreativo.",
+      officialNameEn: "León Municipal City Hall",
+      constructionDateEn: "1942 (Plot occupied since the late 18th century by the Colonial Cabildo)",
+      architectEn: "Municipal Administration of León (1942)",
+      functionInfoEn: "Original & Current: Municipal government headquarters and primary political administrative body of León.",
+      architecturalStyleEn: "1920s Art Déco (Rectangular volume with vertical and horizontal symmetry)",
+      historicalImportanceEn: "Occupies the founding plot of the Plaza Mayor established in 1573 under the New Population Ordinances of King Philip II.",
+      distinctiveElementsEn: "Prominent front balcony accentuating the facade relief; interior divided between administrative and cultural sectors."
+    },
+    // English Main Fields
+    nameEn: "León Municipal City Hall",
+    shortNameEn: "León City Hall",
+    categoryEn: "Government",
+    descriptionEn:
+      "Historic headquarters of the municipal government of León, built in 1942 on the founding plot of the Plaza Mayor established in 1573. It stands out for its elegant Art Déco architecture and key political role.",
+    historyEn:
+      "The plot was occupied from the late 18th century by the House of Governors and the Colonial Cabildo following King Philip II's 1573 Ordinances. The current building was inaugurated in 1942.",
+    tipsEn:
+      "Located directly in front of Juan José Quesada Central Park and the Cathedral. An ideal starting point for a walking tour of León's historic center.",
+    scheduleEn: "Mon–Fri 08:00–17:00",
+    entranceEn: "Free Admission (Public Areas)",
+    durationEn: "20–30 min",
+    difficultyEn: "Easy",
+    tagsEn: ["Art Déco", "Government", "History", "Plaza Mayor"]
   },
   {
     id: 2,
@@ -69,6 +92,7 @@ export const SITES: Site[] = [
     ],
     tags: ["Neoclásico", "Revolución", "Historia", "Museo"],
     audioUrl: "/audios/palaciodepartamental.mp3",
+    audioUrlEn: "/audios_en/palacioingles.mp3",
     googleMapsQuery: "Museo de la Revolución",
     details: {
       officialName: "Antiguo Palacio Departamental de León (Hoy Museo de la Revolución)",
@@ -77,8 +101,29 @@ export const SITES: Site[] = [
       functionInfo: "Original: Sede del Gobierno Departamental. Actual: Museo de la Revolución sobre la lucha sandinista.",
       architecturalStyle: "Influencias neoclásicas con pátina histórica de conservación de época",
       historicalImportance: "Testimonio vivo de la insurrección de 1979; sus muros conservan marcas del conflicto y salones dedicados a los héroes y mártires.",
-      distinctiveElements: "Fachada neoclásica de 2 plantas, vestíbulos con murales históricos, artefactos de guerra y terraza panorámica."
-    }
+      distinctiveElements: "Fachada neoclásica de 2 plantas, vestíbulos con murales históricos, artefactos de guerra y terraza panorámica.",
+      officialNameEn: "Former Departmental Palace of León (Now Revolution Museum)",
+      constructionDateEn: "1935",
+      architectEn: "Arch. Marcelo Targá (Pioneer of neoclassicism in León)",
+      functionInfoEn: "Original: Departmental Government Headquarters. Current: Museum of the Revolution on the Sandinista struggle.",
+      architecturalStyleEn: "Neoclassical influences with authentic period historical patina",
+      historicalImportanceEn: "Living testimony of the 1979 insurrection; walls preserve bullet marks and halls dedicated to fallen heroes.",
+      distinctiveElementsEn: "Two-story neoclassical facade, entrance vestibules with historical murals, war artifacts, and panoramic rooftop."
+    },
+    nameEn: "Departmental Palace - Revolution Museum",
+    shortNameEn: "Departmental Palace",
+    categoryEn: "Museum",
+    descriptionEn:
+      "Emblematic 1935 Neoclassical building that served as the Departmental Government headquarters. Today it houses the Revolution Museum, guided by former combatants.",
+    historyEn:
+      "Designed by architect Marcelo Targá in 1935. Damaged during the 1979 revolutionary battles, its rooms preserve historical memories of Nicaragua's struggle.",
+    tipsEn:
+      "The tour includes access to the rooftop terrace, offering a breathtaking panoramic view of the Cathedral and colonial roofs.",
+    scheduleEn: "Mon–Sun 08:00–17:00",
+    entranceEn: "C$50 locals / $3 foreigners",
+    durationEn: "45–60 min",
+    difficultyEn: "Easy",
+    tagsEn: ["Neoclassical", "Revolution", "History", "Museum"]
   },
   {
     id: 3,
@@ -109,6 +154,7 @@ export const SITES: Site[] = [
     ],
     tags: ["Ecléctico", "Universidad", "Colonial", "UNAN"],
     audioUrl: "/audios/paraninfo.mp3",
+    audioUrlEn: "/audios_en/paraninfoingles.mp3",
     googleMapsQuery: "Paraninfo UNAN-León",
     details: {
       officialName: "Paraninfo / Edificio Central de la UNAN-León (antiguo Convento de La Merced)",
@@ -117,8 +163,29 @@ export const SITES: Site[] = [
       functionInfo: "Original: Convento de La Merced. Actual: Rectoría, Vicerrectoría, Biblioteca Central y Paraninfo de la UNAN-León.",
       architecturalStyle: "Eclecticism peculiar de 2 niveles en disposición simétrica elegante",
       historicalImportance: "Cuna de la educación universitaria nicaragüense (1812) y sitio histórico donde se proclamo la victoria revolucionaria de 1979.",
-      distinctiveElements: "Carpintería artesanal labrada, pilastras en bajorrelieve en la biblioteca y ventanas interiores partidas con columnitas salomónicas (ajimez)."
-    }
+      distinctiveElements: "Carpintería artesanal labrada, pilastras en bajorrelieve en la biblioteca y ventanas interiores partidas con columnitas salomónicas (ajimez).",
+      officialNameEn: "Paraninfo / Central Building of UNAN-León (Former Convent of La Merced)",
+      constructionDateEn: "1887 - 1899 (Adaptation of the 1680 Convent of La Merced)",
+      architectEn: "Designed by Arch. José Mateu",
+      functionInfoEn: "Original: Convent of La Merced. Current: Rectorate, Vice-Rectorate, Central Library, and Paraninfo Hall.",
+      architecturalStyleEn: "Peculiar two-story Eclecticism with elegant symmetrical layout",
+      historicalImportanceEn: "Cradle of higher education in Nicaragua (1812) and historic site of the 1979 revolutionary victory declaration.",
+      distinctiveElementsEn: "Handcrafted carved woodwork, bas-relief pilasters in the library, and split interior windows with Solomonic columns."
+    },
+    nameEn: "Paraninfo UNAN-León",
+    shortNameEn: "Paraninfo UNAN",
+    categoryEn: "University",
+    descriptionEn:
+      "Central building and Solemn Assembly Hall of the National Autonomous University of Nicaragua in León, founded in 1812. Former Convent of La Merced.",
+    historyEn:
+      "Originally the Convent of La Merced (1680), converted into the university headquarters between 1887 and 1899. On July 18, 1979, the National Reconstruction Junta was installed here.",
+    tipsEn:
+      "Visit the colonial central courtyard and library. Open exhibitions about poet Rubén Darío are often displayed.",
+    scheduleEn: "Mon–Fri 08:00–17:00",
+    entranceEn: "Free Admission (Common Areas)",
+    durationEn: "30–45 min",
+    difficultyEn: "Easy",
+    tagsEn: ["Eclectic", "University", "Colonial", "UNAN"]
   },
   {
     id: 4,
@@ -148,6 +215,7 @@ export const SITES: Site[] = [
     ],
     tags: ["Románico", "Piedra Vista", "Iglesia Fortín", "Colonial"],
     audioUrl: "/audios/zaragoza.mp3",
+    audioUrlEn: "/audios_en/zaradozaingles.mp3",
     googleMapsQuery: "Parroquia de Nuestra Señora del Pilar de Zaragoza",
     details: {
       officialName: "Iglesia Nuestra Señora del Pilar de Zaragoza",
@@ -156,8 +224,29 @@ export const SITES: Site[] = [
       functionInfo: "Original y Actual: Templo católico parroquial (Uso constante sin interrupciones).",
       architecturalStyle: "Estilo ecléctico romántico de inspiración románica con detalles de arquitectura militar",
       historicalImportance: "Única 'iglesia fortín' entre las 16 iglesias coloniales de León, diseñada para resguardar la frontera entre León colonial y el asentamiento indígena de Sutiava.",
-      distinctiveElements: "Construcción en sillería de piedra vista sin pintar, fachada tipo fortaleza y torre campanario central piramidal de 3 cuerpos."
-    }
+      distinctiveElements: "Construcción en sillería de piedra vista sin pintar, fachada tipo fortaleza y torre campanario central piramidal de 3 cuerpos.",
+      officialNameEn: "Parish Church of Our Lady of the Pillar of Zaragoza",
+      constructionDateEn: "1884-1886 (Initiation) - 1934 (Completion)",
+      architectEn: "Completed by Monsignor Salmerón; front facade designed by Dr. Francisco Mateo",
+      functionInfoEn: "Original & Current: Parish Catholic Church (Uninterrupted use).",
+      architecturalStyleEn: "Eclectic romantic style of Romanesque inspiration with military architecture details",
+      historicalImportanceEn: "Only 'fortress church' among León's 16 colonial churches, designed to safeguard the border between colonial León and Sutiava.",
+      distinctiveElementsEn: "Built entirely in unpainted ashlar stone, fortress-type facade, and 3-tiered pyramid central bell tower."
+    },
+    nameEn: "Our Lady of the Pillar Zaragoza Church",
+    shortNameEn: "Zaragoza Church",
+    categoryEn: "Colonial Church",
+    descriptionEn:
+      "Unique romantic and eclectic temple built in unpainted exposed stone between 1884 and 1934. Known as the 'fortress church', its stone masonry evokes a castle.",
+    historyEn:
+      "Construction began in 1884 and concluded in 1934 under Monsignor Salmerón and Dr. Francisco Mateo. Located on the historic urban border with Sutiava.",
+    tipsEn:
+      "Unique among León's 16 churches for its quarry stone facade without plaster or paint. Beautiful lighting at sunset.",
+    scheduleEn: "Mon–Sun 07:00–18:00",
+    entranceEn: "Free Admission",
+    durationEn: "30–45 min",
+    difficultyEn: "Easy",
+    tagsEn: ["Romanesque", "Exposed Stone", "Fortress Church", "Colonial"]
   },
   {
     id: 5,
@@ -182,15 +271,16 @@ export const SITES: Site[] = [
     difficulty: "Fácil",
     images: [
       "/Fotos/CasaDebayle/Casadebayle1.jpeg",
+      "/Fotos/CasaDebayle/Casadebayle6.jpeg",
+      "/Fotos/CasaDebayle/Casadebayle7.jpeg",
       "/Fotos/CasaDebayle/Cadadebayle2.jpeg",
       "/Fotos/CasaDebayle/Casadebayle3.jpeg",
       "/Fotos/CasaDebayle/Casadebayle4.jpeg",
       "/Fotos/CasaDebayle/Casadebayle5.jpeg",
-      "/Fotos/CasaDebayle/Casadebayle6.jpeg",
-      "/Fotos/CasaDebayle/Casadebayle7.jpeg",
     ],
     tags: ["Colonial", "Medicina", "Bellas Artes", "Historia"],
     audioUrl: "/audios/casadebayle.mp3",
+    audioUrlEn: "/audios_en/casadabayleingles.mp3",
     googleMapsQuery: 'Escuela De Bellas Artes "Mariana Sansón Argüello"',
     details: {
       officialName: "Antigua Casa de Salud Debayle (Hoy Escuela de Bellas Artes Mariana Sansón - UNAN León)",
@@ -199,8 +289,29 @@ export const SITES: Site[] = [
       functionInfo: "Original: Banco privado 'Bola de Oro' (1814) -> Sanatorio médico (1900) -> Cuartel Militar (1926). Actual: Escuela de Bellas Artes y Recinto Cultural.",
       architecturalStyle: "Arquitectura señorial colonial leonesa de dos niveles con patio interior",
       historicalImportance: "Cuna de la primera clínica quirúrgica privada de Centroamérica. Restaurada tras los daños del Huracán Mitch de 1998.",
-      distinctiveElements: "Salones dedicados a arqueología precolombina (500 a.C.), salas de exposiciones plásticas contemporáneas y galerías con arquería de madera."
-    }
+      distinctiveElements: "Salones dedicados a arqueología precolombina (500 a.C.), salas de exposiciones plásticas contemporáneas y galerías con arquería de madera.",
+      officialNameEn: "Former Debayle Health House (Now Mariana Sansón School of Fine Arts)",
+      constructionDateEn: "1814 (Original Bola de Oro House) / 1900-1926 (Medical Clinic)",
+      architectEn: "Ramírez Family / Adapted by Dr. Luis Henry Debayle",
+      functionInfoEn: "Original: Private Bank 'Bola de Oro' (1814) -> Medical Sanatorium (1900) -> Military Barracks (1926). Current: Fine Arts School & Cultural Center.",
+      architecturalStyleEn: "Stately two-story León colonial architecture with interior courtyard",
+      historicalImportanceEn: "Birthplace of the first private surgical clinic in Central America. Restored following Hurricane Mitch in 1998.",
+      distinctiveElementsEn: "Halls dedicated to pre-Columbian archaeology (500 BC), contemporary art galleries, and wooden archways."
+    },
+    nameEn: "Former Debayle Health House",
+    shortNameEn: "Debayle House",
+    categoryEn: "Health / History",
+    descriptionEn:
+      "1814 colonial mansion where Dr. Luis Henry Debayle founded Central America's first private clinic in 1900. Today it houses the 'Mariana Sansón' School of Fine Arts.",
+    historyEn:
+      "Built in 1814 as the headquarters of the 'Bola de Oro' bank. Adapted into a sanatorium in 1900. Served as U.S. Marine barracks between 1926 and 1931.",
+    tipsEn:
+      "Houses valuable pre-Columbian art collections dating back 2,500 years and rooms with contemporary Nicaraguan paintings.",
+    scheduleEn: "Mon–Fri 09:00–17:00",
+    entranceEn: "C$30 pp",
+    durationEn: "45–60 min",
+    difficultyEn: "Easy",
+    tagsEn: ["Colonial", "Medicine", "Fine Arts", "History"]
   },
   {
     id: 6,
@@ -232,6 +343,7 @@ export const SITES: Site[] = [
     ],
     tags: ["Neogótico", "Religioso", "Educación", "Vitrales"],
     audioUrl: "/audios/asuncion.mp3",
+    audioUrlEn: "/audios_en/asuncioningles.mp3",
     googleMapsQuery: "Colegio La Asunción",
     details: {
       officialName: "Capilla y Colegio La Asunción (Antiguo Palacio Episcopal)",
@@ -240,7 +352,28 @@ export const SITES: Site[] = [
       functionInfo: "Original: Palacio Episcopal (Residencia de los Obispos de León por dos siglos). Actual: Capilla y Colegio de las Madres Asuncionistas.",
       architecturalStyle: "Capilla Neogótica y Colegio con fachadas elípticas y neoclásicas",
       historicalImportance: "Residencia episcopal de Nicaragua durante más de 200 años y centro educativo católico femenino de gran arraigo desde 1898.",
-      distinctiveElements: "Fachada neogótica con rosetón central, magníficos vitrales policromados y combinación de dos volumetrías históricas diferenciadas."
-    }
+      distinctiveElements: "Fachada neogótica con rosetón central, magníficos vitrales policromados y combinación de dos volumetrías históricas diferenciadas.",
+      officialNameEn: "La Asunción Chapel and School (Former Episcopal Palace)",
+      constructionDateEn: "1679 (Original Episcopal Palace) / 1935 (Neogothic Chapel)",
+      architectEn: "Bishop Andrés de las Navas y Quevedo (1679) / Neogothic chapel by Arch. Marcelo Targá (1935)",
+      functionInfoEn: "Original: Episcopal Palace (Residency of the Bishops of León for two centuries). Current: Chapel and School of the Assumption Sisters.",
+      architecturalStyleEn: "Neogothic Chapel and School with elliptical and neoclassical facades",
+      historicalImportanceEn: "Episcopal residency of Nicaragua for over 200 years and deep-rooted Catholic women's educational center since 1898.",
+      distinctiveElementsEn: "Neogothic facade with central rose window, magnificent polychrome stained glass windows, and integration of two distinct historical volumes."
+    },
+    nameEn: "La Asunción Chapel & School",
+    shortNameEn: "La Asunción School",
+    categoryEn: "Colonial Church",
+    descriptionEn:
+      "Majestic architectural complex comprising the former 1679 Episcopal Palace and the beautiful 1935 Neogothic Chapel.",
+    historyEn:
+      "Original building served as the residency of León's bishops since 1679. Ceded to the Religious of the Assumption in 1898. Neogothic chapel built in 1935 by Arch. Marcelo Targá.",
+    tipsEn:
+      "Admire the stained glass windows imported from Europe integrated into the Neogothic facade. Located 100m south of Central Park.",
+    scheduleEn: "Mon–Fri 07:30–16:30",
+    entranceEn: "Free entry to chapel during service hours",
+    durationEn: "30–45 min",
+    difficultyEn: "Easy",
+    tagsEn: ["Neogothic", "Religious", "Education", "Stained Glass"]
   }
 ];

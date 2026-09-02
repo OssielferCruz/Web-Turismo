@@ -1,5 +1,6 @@
-import { Site } from "../types/site";
-import { getCategoryColor, getCategoryAccent } from "../data/categories";
+import { Site, Language } from "../types/site";
+import { getCategoryColor, getCategoryAccent, getCategoryLabel } from "../data/categories";
+import { UI_TRANSLATIONS } from "../data/translations";
 
 interface SidebarProps {
   sites: Site[];
@@ -10,6 +11,7 @@ interface SidebarProps {
   onSearchChange: (q: string) => void;
   isOpen: boolean;
   onToggleOpen: () => void;
+  lang: Language;
 }
 
 function Stars({ rating }: { rating: number }) {
@@ -36,7 +38,10 @@ export default function Sidebar({
   onSearchChange,
   isOpen,
   onToggleOpen,
+  lang,
 }: SidebarProps) {
+  const t = UI_TRANSLATIONS[lang];
+
   return (
     <>
       {/* Desktop Sidebar Toggle Floating Button */}
@@ -62,7 +67,7 @@ export default function Sidebar({
         <div className="p-3 border-b border-[#f0ebe5] flex-shrink-0">
           <div className="flex items-center justify-between mb-2">
             <p className="text-[10px] font-bold uppercase tracking-wider text-[#bdb0a6] font-mono">
-              Sitios Turísticos · {sites.length}
+              {t.totalPlaces}
             </p>
             {/* Mobile close button inside drawer */}
             <button
@@ -77,7 +82,7 @@ export default function Sidebar({
             <span className="text-xs">🔍</span>
             <input
               type="text"
-              placeholder="Buscar lugar, categoría, tag..."
+              placeholder={t.searchPlaceholder}
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
               className="w-full text-xs bg-transparent outline-none text-[#3d3430] placeholder-[#bdb0a6]"
@@ -97,13 +102,16 @@ export default function Sidebar({
         <div className="flex-1 overflow-y-auto">
           {sites.length === 0 ? (
             <div className="p-8 text-center text-xs text-[#bdb0a6]">
-              No se encontraron sitios con "{searchQuery}"
+              {t.noResults}
             </div>
           ) : (
             sites.map((site, index) => {
               const color = getCategoryColor(site.category);
               const accent = getCategoryAccent(site.category);
               const isActive = selectedSite?.id === site.id;
+
+              const displayName = lang === "en" ? (site.shortNameEn || site.shortName) : site.shortName;
+              const displayCategory = getCategoryLabel(site.category, lang);
 
               return (
                 <button
@@ -131,9 +139,9 @@ export default function Sidebar({
                       }`}
                       style={{ color: isActive ? color : undefined }}
                     >
-                      {site.shortName}
+                      {displayName}
                     </p>
-                    <p className="text-[10px] text-[#9a8e84] truncate">{site.category}</p>
+                    <p className="text-[10px] text-[#9a8e84] truncate">{displayCategory}</p>
                     <div className="flex items-center gap-1.5 mt-1">
                       <Stars rating={site.rating ?? 4.8} />
                       <span className="text-[10px] font-bold font-mono text-[#e97c2e]">
