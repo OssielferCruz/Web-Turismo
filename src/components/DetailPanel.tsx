@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Site } from "../types/site";
 import { getCategoryColor, getCategoryAccent } from "../data/categories";
 import Lightbox from "./Lightbox";
@@ -23,13 +23,21 @@ function Stars({ rating }: { rating: number }) {
   );
 }
 
+function formatTime(sec: number): string {
+  if (isNaN(sec) || sec < 0) return "0:00";
+  const m = Math.floor(sec / 60);
+  const s = Math.floor(sec % 60);
+  return `${m}:${s < 10 ? "0" : ""}${s}`;
+}
+
 export default function DetailPanel({ site, onClose }: DetailPanelProps) {
   const [lbIdx, setLbIdx] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<"ficha" | "resumen">("ficha");
 
   // Audio Player State
   const [isPlaying, setIsPlaying] = useState(false);
-  const [audioProgress, setAudioProgress] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const color = getCategoryColor(site.category);
@@ -39,14 +47,19 @@ export default function DetailPanel({ site, onClose }: DetailPanelProps) {
       ? site.images
       : ["https://images.unsplash.com/photo-1684861746842-7115e4530437?w=900&h=600&fit=crop&auto=format"];
 
+  // Reset audio playback when switching to a different site
+  useEffect(() => {
+    setIsPlaying(false);
+    setCurrentTime(0);
+    setDuration(0);
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+  }, [site.id]);
+
   const toggleAudio = () => {
     if (!audioRef.current) return;
-
-    // Si no hay URL de audio aún cargada, simulamos la reproducción interactiva
-    if (!site.audioUrl) {
-      setIsPlaying((prev) => !prev);
-      return;
-    }
 
     if (isPlaying) {
       audioRef.current.pause();
@@ -55,15 +68,33 @@ export default function DetailPanel({ site, onClose }: DetailPanelProps) {
       audioRef.current
         .play()
         .then(() => setIsPlaying(true))
-        .catch(() => setIsPlaying(true)); // Fallback interactivo si el archivo es local
+        .catch((err) => {
+          console.warn("No se pudo iniciar el audio:", err);
+          setIsPlaying(true);
+        });
     }
   };
 
   const handleTimeUpdate = () => {
-    if (audioRef.current && audioRef.current.duration) {
-      const p = (audioRef.current.currentTime / audioRef.current.duration) * 100;
-      setAudioProgress(p);
+    if (audioRef.current) {
+      setCurrentTime(audioRef.current.currentTime);
     }
+  };
+
+  const handleLoadedMetadata = () => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration);
+    }
+  };
+
+  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!audioRef.current || !duration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const seekPercentage = Math.max(0, Math.min(1, clickX / rect.width));
+    const newTime = seekPercentage * duration;
+    audioRef.current.currentTime = newTime;
+    setCurrentTime(newTime);
   };
 
   const openGoogleMapsLocation = () => {
@@ -74,6 +105,7 @@ export default function DetailPanel({ site, onClose }: DetailPanelProps) {
   };
 
   const details = site.details ?? {};
+  const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
     <>
@@ -81,14 +113,16 @@ export default function DetailPanel({ site, onClose }: DetailPanelProps) {
         <Lightbox images={images} startIndex={lbIdx} onClose={() => setLbIdx(null)} />
       )}
 
-      {/* Elemento de Audio HTML5 (Inserta la URL de tu audio en site.audioUrl o src) */}
+      {/* Elemento de Audio HTML5 cargado con la URL oficial de la atracción */}
       <audio
         ref={audioRef}
         src={site.audioUrl || ""}
         onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
+        onDurationChange={handleLoadedMetadata}
         onEnded={() => {
           setIsPlaying(false);
-          setAudioProgress(0);
+          setCurrentTime(0);
         }}
       />
 
@@ -166,13 +200,13 @@ export default function DetailPanel({ site, onClose }: DetailPanelProps) {
             </div>
           </div>
 
-          {/* Audio Player Widget */}
-          <div className="bg-gradient-to-r from-[#1a1612] to-[#362b25] text-white rounded-2xl p-3.5 shadow-md border border-[#4a3d35] flex flex-col gap-2.5">
+          {/* Audio Player Widget con Barra de Progreso y Tiempo */}
+          <div className="bg-gradient-to-r from-[#1a1612] to-[#362b25] text-white rounded-2xl p-4 shadow-md border border-[#4a3d35] flex flex-col gap-3">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5 min-w-0">
+              <div className="flex items-center gap-3 min-w-0">
                 <button
                   onClick={toggleAudio}
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-white text-base shadow-lg transition-transform active:scale-95 cursor-pointer flex-shrink-0"
+                  className="w-11 h-11 rounded-full flex items-center justify-center text-white text-lg shadow-lg transition-transform active:scale-95 cursor-pointer flex-shrink-0"
                   style={{ backgroundColor: color }}
                   title={isPlaying ? "Pausar audioguía" : "Reproducir audioguía"}
                 >
@@ -186,45 +220,56 @@ export default function DetailPanel({ site, onClose }: DetailPanelProps) {
                     </p>
                   </div>
                   <p className="text-[10px] text-[#c4b6ab] truncate mt-0.5">
-                    {site.shortName} · Historia y Arquitectura
+                    {site.shortName} · Recorrido Auditivo
                   </p>
                 </div>
               </div>
 
-              {/* Soundwave animation when playing */}
-              <div className="flex items-end gap-0.5 h-4 px-1">
+              {/* Animación de ondas de sonido al reproducir */}
+              <div className="flex items-end gap-1 h-5 px-1">
                 <span
                   className={`w-1 bg-[#e97c2e] rounded-full transition-all duration-300 ${
-                    isPlaying ? "h-4 animate-bounce" : "h-1.5"
+                    isPlaying ? "h-5 animate-bounce" : "h-1.5"
                   }`}
                 />
                 <span
                   className={`w-1 bg-[#e97c2e] rounded-full transition-all duration-300 ${
-                    isPlaying ? "h-3 animate-pulse" : "h-2"
+                    isPlaying ? "h-3.5 animate-pulse" : "h-2"
                   }`}
                 />
                 <span
                   className={`w-1 bg-[#e97c2e] rounded-full transition-all duration-300 ${
-                    isPlaying ? "h-4 animate-bounce delay-75" : "h-1"
+                    isPlaying ? "h-5 animate-bounce delay-75" : "h-1"
                   }`}
                 />
               </div>
             </div>
 
-            {/* Audio Progress Bar */}
-            <div className="w-full bg-white/15 h-1.5 rounded-full overflow-hidden cursor-pointer">
+            {/* Seeker / Barra de Progreso Interactiva */}
+            <div className="flex flex-col gap-1 mt-1">
               <div
-                className="h-full rounded-full transition-all duration-200"
-                style={{
-                  width: isPlaying ? `${audioProgress || 45}%` : "0%",
-                  backgroundColor: color,
-                }}
-              />
-            </div>
+                onClick={handleSeek}
+                className="relative w-full bg-white/20 hover:bg-white/30 h-2.5 rounded-full cursor-pointer overflow-hidden transition-colors group"
+                title="Toca para adelantar o retroceder el audio"
+              >
+                <div
+                  className="h-full rounded-full transition-all duration-100 relative"
+                  style={{
+                    width: `${progressPercent}%`,
+                    backgroundColor: color,
+                  }}
+                />
+              </div>
 
-            <p className="text-[9px] text-[#a39588] text-right font-mono">
-              {isPlaying ? "Reproduciendo..." : "Haz clic para escuchar el audio"}
-            </p>
+              {/* Indicadores de Avance y Tiempo Total */}
+              <div className="flex items-center justify-between text-[10px] font-mono text-[#c4b6ab] pt-0.5">
+                <span>{formatTime(currentTime)}</span>
+                <span className="text-[9px] text-[#a39588]">
+                  {isPlaying ? "▶ Reproduciendo" : "Pausado"}
+                </span>
+                <span>{formatTime(duration)}</span>
+              </div>
+            </div>
           </div>
 
           {/* Section Tabs */}

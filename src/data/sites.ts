@@ -28,7 +28,7 @@ export const SITES: Site[] = [
       "/Fotos/Alcaldia/alcaldia4.jpeg",
     ],
     tags: ["Art Déco", "Gobierno", "Historia", "Plaza Mayor"],
-    audioUrl: "",
+    audioUrl: "/audios/alcaldia.mp3",
     googleMapsQuery: "Alcaldía Municipal de León",
     details: {
       officialName: "Alcaldía Municipal de León",
@@ -68,7 +68,7 @@ export const SITES: Site[] = [
       "/Fotos/PalacioDepartamental/palaciodep5.jpeg",
     ],
     tags: ["Neoclásico", "Revolución", "Historia", "Museo"],
-    audioUrl: "",
+    audioUrl: "/audios/palaciodepartamental.mp3",
     googleMapsQuery: "Museo de la Revolución",
     details: {
       officialName: "Antiguo Palacio Departamental de León (Hoy Museo de la Revolución)",
@@ -108,7 +108,7 @@ export const SITES: Site[] = [
       "/Fotos/Paraninfo/paraninfo4.jpg",
     ],
     tags: ["Ecléctico", "Universidad", "Colonial", "UNAN"],
-    audioUrl: "",
+    audioUrl: "/audios/paraninfo.mp3",
     googleMapsQuery: "Paraninfo UNAN-León",
     details: {
       officialName: "Paraninfo / Edificio Central de la UNAN-León (antiguo Convento de La Merced)",
@@ -147,7 +147,7 @@ export const SITES: Site[] = [
       "/Fotos/Zaragoza/zaragoza3.jpeg",
     ],
     tags: ["Románico", "Piedra Vista", "Iglesia Fortín", "Colonial"],
-    audioUrl: "",
+    audioUrl: "/audios/zaragoza.mp3",
     googleMapsQuery: "Parroquia de Nuestra Señora del Pilar de Zaragoza",
     details: {
       officialName: "Iglesia Nuestra Señora del Pilar de Zaragoza",
@@ -188,7 +188,7 @@ export const SITES: Site[] = [
       "/Fotos/CasaDebayle/Casadebayle5.jpeg",
     ],
     tags: ["Colonial", "Medicina", "Bellas Artes", "Historia"],
-    audioUrl: "",
+    audioUrl: "/audios/casadebayle.mp3",
     googleMapsQuery: 'Escuela De Bellas Artes "Mariana Sansón Argüello"',
     details: {
       officialName: "Antigua Casa de Salud Debayle (Hoy Escuela de Bellas Artes Mariana Sansón - UNAN León)",
@@ -229,7 +229,7 @@ export const SITES: Site[] = [
       "/Fotos/LaAsunción/asuncion6.jpeg",
     ],
     tags: ["Neogótico", "Religioso", "Educación", "Vitrales"],
-    audioUrl: "",
+    audioUrl: "/audios/asuncion.mp3",
     googleMapsQuery: "Colegio La Asunción",
     details: {
       officialName: "Capilla y Colegio La Asunción (Antiguo Palacio Episcopal)",
