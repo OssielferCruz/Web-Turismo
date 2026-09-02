@@ -215,7 +215,7 @@ export const SITES: Site[] = [
     ],
     tags: ["Románico", "Piedra Vista", "Iglesia Fortín", "Colonial"],
     audioUrl: "/audios/zaragoza.mp3",
-    audioUrlEn: "/audios_en/zaradozaingles.mp3",
+    audioUrlEn: "/audios_en/zaragozaingles.mp3",
     googleMapsQuery: "Parroquia de Nuestra Señora del Pilar de Zaragoza",
     details: {
       officialName: "Iglesia Nuestra Señora del Pilar de Zaragoza",
@@ -280,7 +280,7 @@ export const SITES: Site[] = [
     ],
     tags: ["Colonial", "Medicina", "Bellas Artes", "Historia"],
     audioUrl: "/audios/casadebayle.mp3",
-    audioUrlEn: "/audios_en/casadabayleingles.mp3",
+    audioUrlEn: "/audios_en/cadadebayleingles.mp3",
     googleMapsQuery: 'Escuela De Bellas Artes "Mariana Sansón Argüello"',
     details: {
       officialName: "Antigua Casa de Salud Debayle (Hoy Escuela de Bellas Artes Mariana Sansón - UNAN León)",
