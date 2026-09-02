@@ -50,10 +50,6 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
   // Custom user-uploaded MP3 file override
   const [customAudioUrl, setCustomAudioUrl] = useState<string | null>(null);
 
-  // Web Speech Synthesis (Speech Narration in English / Spanish)
-  const [isSpeaking, setIsSpeaking] = useState(false);
-  const [useSpeechTTS, setUseSpeechTTS] = useState(false);
-
   const color = getCategoryColor(site.category);
   const accent = getCategoryAccent(site.category);
   const images =
@@ -74,7 +70,7 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
   const displayTags = lang === "en" ? (site.tagsEn || site.tags) : site.tags;
   const displayCategory = getCategoryLabel(site.category, lang);
 
-  // Sync audioLang when global lang changes
+  // Sync audioLang when global lang or site changes
   useEffect(() => {
     setAudioLang(lang);
     setCustomAudioUrl(null);
@@ -84,21 +80,11 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
   const defaultAudioUrl = audioLang === "en" ? (site.audioUrlEn || site.audioUrl) : site.audioUrl;
   const currentAudioUrl = customAudioUrl || defaultAudioUrl;
 
-  const [audioSrc, setAudioSrc] = useState<string>(currentAudioUrl || "");
-
-  useEffect(() => {
-    setAudioSrc(currentAudioUrl || "");
-  }, [currentAudioUrl]);
-
   // Reset audio playback when switching site or audio source
   useEffect(() => {
     setIsPlaying(false);
     setCurrentTime(0);
     setDuration(0);
-    if (window.speechSynthesis) {
-      window.speechSynthesis.cancel();
-    }
-    setIsSpeaking(false);
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
@@ -106,52 +92,8 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
     }
   }, [site.id, audioLang, customAudioUrl]);
 
-  // Web Speech Synthesis (Text to Speech Narration)
-  const speakNarration = () => {
-    if (!window.speechSynthesis) return;
-
-    if (isSpeaking) {
-      window.speechSynthesis.cancel();
-      setIsSpeaking(false);
-      return;
-    }
-
-    // Stop MP3 if playing
-    if (audioRef.current) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    }
-
-    const textToSpeak = `${displayName}. ${displayDescription} ${displayHistory}`;
-    const utterance = new SpeechSynthesisUtterance(textToSpeak);
-    utterance.lang = audioLang === "en" ? "en-US" : "es-ES";
-    utterance.rate = 0.95;
-
-    // Find best voice
-    const voices = window.speechSynthesis.getVoices();
-    const targetLangPrefix = audioLang === "en" ? "en" : "es";
-    const voice = voices.find((v) => v.lang.startsWith(targetLangPrefix));
-    if (voice) utterance.voice = voice;
-
-    utterance.onend = () => setIsSpeaking(false);
-    utterance.onerror = () => setIsSpeaking(false);
-
-    setIsSpeaking(true);
-    window.speechSynthesis.speak(utterance);
-  };
-
   const toggleAudio = () => {
-    if (useSpeechTTS) {
-      speakNarration();
-      return;
-    }
-
     if (!audioRef.current) return;
-
-    if (window.speechSynthesis) {
-      window.speechSynthesis.cancel();
-      setIsSpeaking(false);
-    }
 
     if (isPlaying) {
       audioRef.current.pause();
@@ -161,8 +103,8 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
         .play()
         .then(() => setIsPlaying(true))
         .catch((err) => {
-          console.warn("Error iniciando MP3, usando síntesis de voz:", err);
-          speakNarration();
+          console.warn("Error iniciando reproductor MP3:", err);
+          setIsPlaying(false);
         });
     }
   };
@@ -195,7 +137,6 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
     if (file) {
       const url = URL.createObjectURL(file);
       setCustomAudioUrl(url);
-      setUseSpeechTTS(false);
     }
   };
 
@@ -215,7 +156,6 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
   const dDistinctive = lang === "en" ? (details.distinctiveElementsEn || details.distinctiveElements) : details.distinctiveElements;
 
   const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
-  const activePlayingState = isPlaying || isSpeaking;
 
   return (
     <>
@@ -232,10 +172,10 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
         className="hidden"
       />
 
-      {/* Elemento de Audio HTML5 cargado con la URL correspondiente al idioma activo */}
+      {/* Elemento de Audio HTML5 cargado con la URL del idioma de audio activo */}
       <audio
         ref={audioRef}
-        src={audioSrc}
+        src={currentAudioUrl || ""}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
         onDurationChange={handleLoadedMetadata}
@@ -319,7 +259,7 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
             </div>
           </div>
 
-          {/* Audio Player Widget Bilingüe Avanzado */}
+          {/* Audio Player Widget Bilingüe */}
           <div className="bg-gradient-to-r from-[#1a1612] to-[#362b25] text-white rounded-2xl p-4 shadow-md border border-[#4a3d35] flex flex-col gap-3">
             {/* Audio Header & Language Switcher inside Widget */}
             <div className="flex items-center justify-between border-b border-[#4a3d35] pb-2.5">
@@ -333,12 +273,9 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
               {/* Selector de Idioma de Audio (ES / EN) */}
               <div className="flex items-center gap-1 bg-[#2d2420] p-1 rounded-full border border-[#4a3d35]">
                 <button
-                  onClick={() => {
-                    setAudioLang("es");
-                    setUseSpeechTTS(false);
-                  }}
-                  className={`px-2 py-0.5 rounded-full text-[10px] font-bold transition-all cursor-pointer ${
-                    audioLang === "es" && !useSpeechTTS
+                  onClick={() => setAudioLang("es")}
+                  className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold transition-all cursor-pointer ${
+                    audioLang === "es"
                       ? "bg-[#e97c2e] text-white shadow-xs"
                       : "text-[#c4b6ab] hover:text-white"
                   }`}
@@ -346,32 +283,14 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
                   🇪🇸 Audio ES
                 </button>
                 <button
-                  onClick={() => {
-                    setAudioLang("en");
-                    setUseSpeechTTS(false);
-                  }}
-                  className={`px-2 py-0.5 rounded-full text-[10px] font-bold transition-all cursor-pointer ${
-                    audioLang === "en" && !useSpeechTTS
+                  onClick={() => setAudioLang("en")}
+                  className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold transition-all cursor-pointer ${
+                    audioLang === "en"
                       ? "bg-[#e97c2e] text-white shadow-xs"
                       : "text-[#c4b6ab] hover:text-white"
                   }`}
                 >
                   🇬🇧 Audio EN
-                </button>
-
-                {/* Síntesis de voz (Voz hablada) */}
-                <button
-                  onClick={() => {
-                    setUseSpeechTTS(true);
-                  }}
-                  className={`px-2 py-0.5 rounded-full text-[10px] font-bold transition-all cursor-pointer ${
-                    useSpeechTTS
-                      ? "bg-[#1d4ed8] text-white shadow-xs"
-                      : "text-[#c4b6ab] hover:text-white"
-                  }`}
-                  title="Voz sintetizada bilingüe"
-                >
-                  🗣️ Voz
                 </button>
               </div>
             </div>
@@ -382,25 +301,21 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
                 <button
                   onClick={toggleAudio}
                   className="w-11 h-11 rounded-full flex items-center justify-center text-white text-lg shadow-lg transition-transform active:scale-95 cursor-pointer flex-shrink-0"
-                  style={{ backgroundColor: useSpeechTTS ? "#1d4ed8" : color }}
-                  title={activePlayingState ? t.audioPaused : t.audioPlaying}
+                  style={{ backgroundColor: color }}
+                  title={isPlaying ? t.audioPaused : t.audioPlaying}
                 >
-                  {activePlayingState ? "⏸" : "▶"}
+                  {isPlaying ? "⏸" : "▶"}
                 </button>
                 <div className="min-w-0">
                   <p className="text-xs font-bold font-['Outfit',sans-serif] truncate text-white">
                     {displayShortName}
                   </p>
                   <p className="text-[10px] text-[#c4b6ab] truncate mt-0.5">
-                    {useSpeechTTS
-                      ? audioLang === "en"
-                        ? "🗣️ English Voice Speech"
-                        : "🗣️ Lectura de Voz en Español"
-                      : customAudioUrl
+                    {customAudioUrl
                       ? "📁 MP3 Personalizado Cargado"
                       : audioLang === "en"
-                      ? "🇬🇧 English Narrated Audio"
-                      : "🇪🇸 Audioguía en Español"}
+                      ? "🇬🇧 English Narrated Audio (/audios_en/...)"
+                      : "🇪🇸 Audioguía en Español (/audios/...)"}
                   </p>
                 </div>
               </div>
@@ -409,42 +324,40 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
               <div className="flex items-end gap-1 h-5 px-1">
                 <span
                   className={`w-1 bg-[#e97c2e] rounded-full transition-all duration-300 ${
-                    activePlayingState ? "h-5 animate-bounce" : "h-1.5"
+                    isPlaying ? "h-5 animate-bounce" : "h-1.5"
                   }`}
                 />
                 <span
                   className={`w-1 bg-[#e97c2e] rounded-full transition-all duration-300 ${
-                    activePlayingState ? "h-3.5 animate-pulse" : "h-2"
+                    isPlaying ? "h-3.5 animate-pulse" : "h-2"
                   }`}
                 />
                 <span
                   className={`w-1 bg-[#e97c2e] rounded-full transition-all duration-300 ${
-                    activePlayingState ? "h-5 animate-bounce delay-75" : "h-1"
+                    isPlaying ? "h-5 animate-bounce delay-75" : "h-1"
                   }`}
                 />
               </div>
             </div>
 
-            {/* Seeker / Barra de Progreso Interactiva (Para MP3) */}
-            {!useSpeechTTS && (
-              <div className="flex flex-col gap-1 mt-1">
+            {/* Seeker / Barra de Progreso Interactiva */}
+            <div className="flex flex-col gap-1 mt-1">
+              <div
+                onClick={handleSeek}
+                className="w-full h-2 bg-[#4a3d35] rounded-full overflow-hidden cursor-pointer relative group"
+              >
                 <div
-                  onClick={handleSeek}
-                  className="w-full h-2 bg-[#4a3d35] rounded-full overflow-hidden cursor-pointer relative group"
-                >
-                  <div
-                    className="h-full bg-gradient-to-r from-[#e97c2e] to-[#fcd5b8] rounded-full transition-all duration-100"
-                    style={{ width: `${progressPercent}%` }}
-                  />
-                </div>
-
-                {/* Visor de Tiempo mm:ss */}
-                <div className="flex items-center justify-between text-[10px] font-mono text-[#c4b6ab]">
-                  <span>{formatTime(currentTime)}</span>
-                  <span>{formatTime(duration)}</span>
-                </div>
+                  className="h-full bg-gradient-to-r from-[#e97c2e] to-[#fcd5b8] rounded-full transition-all duration-100"
+                  style={{ width: `${progressPercent}%` }}
+                />
               </div>
-            )}
+
+              {/* Visor de Tiempo mm:ss */}
+              <div className="flex items-center justify-between text-[10px] font-mono text-[#c4b6ab]">
+                <span>{formatTime(currentTime)}</span>
+                <span>{formatTime(duration)}</span>
+              </div>
+            </div>
 
             {/* Botón para cargar archivo MP3 local si se desea */}
             <div className="flex items-center justify-between pt-1 text-[10px] font-mono text-[#c4b6ab]">
