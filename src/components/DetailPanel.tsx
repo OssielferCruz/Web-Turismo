@@ -67,8 +67,8 @@ export default function DetailPanel({ site, onClose }: DetailPanelProps) {
   };
 
   const openGoogleMapsLocation = () => {
-    // Redirige al lugar exacto en Google Maps buscando por Nombre Oficial + Ciudad
-    const searchQuery = `${site.details?.officialName || site.name}, León, Nicaragua`;
+    // Redirige a la Ficha Oficial de Google Maps usando la búsqueda exacta de cada entidad
+    const searchQuery = site.googleMapsQuery || `${site.shortName}, León, Nicaragua`;
     const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(searchQuery)}`;
     window.open(url, "_blank");
   };

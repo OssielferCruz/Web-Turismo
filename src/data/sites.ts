@@ -29,6 +29,7 @@ export const SITES: Site[] = [
     ],
     tags: ["Art Déco", "Gobierno", "Historia", "Plaza Mayor"],
     audioUrl: "",
+    googleMapsQuery: "Alcaldia Municipal de León",
     details: {
       officialName: "Alcaldía Municipal de León",
       constructionDate: "1942 (Solar ocupado desde finales del s. XVIII por el Cabildo Colonial)",
@@ -36,7 +37,7 @@ export const SITES: Site[] = [
       functionInfo: "Original y Actual: Sede del gobierno municipal y principal órgano político administrativo de León.",
       architecturalStyle: "Art Déco de los años 20 (Volumetría rectangular con simetría de vanos verticales y horizontales)",
       historicalImportance: "Ocupa el solar fundacional de la Plaza Mayor establecida en 1573 por las Ordenanzas de Nueva Población de Felipe II.",
-      distinctiveElements: "Balcón de fachada que acentúa el relieve del edificio; interior dividido entre área administrativa y sector cultural-recreativo."
+      distinctiveElements: "Balcón de fachada que acentúa el relief del edificio; interior dividido entre área administrativa y sector cultural-recreativo."
     }
   },
   {
@@ -68,6 +69,7 @@ export const SITES: Site[] = [
     ],
     tags: ["Neoclásico", "Revolución", "Historia", "Museo"],
     audioUrl: "",
+    googleMapsQuery: "Museo de la Revolución",
     details: {
       officialName: "Antiguo Palacio Departamental de León (Hoy Museo de la Revolución)",
       constructionDate: "1935",
@@ -107,6 +109,7 @@ export const SITES: Site[] = [
     ],
     tags: ["Ecléctico", "Universidad", "Colonial", "UNAN"],
     audioUrl: "",
+    googleMapsQuery: "Paraninfo UNAN-León",
     details: {
       officialName: "Paraninfo / Edificio Central de la UNAN-León (antiguo Convento de La Merced)",
       constructionDate: "1887 - 1899 (Adaptación del Convento de La Merced de 1680)",
@@ -145,6 +148,7 @@ export const SITES: Site[] = [
     ],
     tags: ["Románico", "Piedra Vista", "Iglesia Fortín", "Colonial"],
     audioUrl: "",
+    googleMapsQuery: "Iglesia Nuestra Señora del Pilar de Zaragoza",
     details: {
       officialName: "Iglesia Nuestra Señora del Pilar de Zaragoza",
       constructionDate: "1884-1886 (Inicios) - 1934 (Conclusión)",
@@ -185,6 +189,7 @@ export const SITES: Site[] = [
     ],
     tags: ["Colonial", "Medicina", "Bellas Artes", "Historia"],
     audioUrl: "",
+    googleMapsQuery: 'Escuela De Bellas Artes "Mariana Sansón Argüello"',
     details: {
       officialName: "Antigua Casa de Salud Debayle (Hoy Escuela de Bellas Artes Mariana Sansón - UNAN León)",
       constructionDate: "1814 (Casa original Bola de Oro) / 1900-1926 (Clínica médica)",
@@ -225,6 +230,7 @@ export const SITES: Site[] = [
     ],
     tags: ["Neogótico", "Religioso", "Educación", "Vitrales"],
     audioUrl: "",
+    googleMapsQuery: "Colegio La Asunción",
     details: {
       officialName: "Capilla y Colegio La Asunción (Antiguo Palacio Episcopal)",
       constructionDate: "1679 (Inmueble original Palacio Episcopal) / 1935 (Capilla Neogótica)",

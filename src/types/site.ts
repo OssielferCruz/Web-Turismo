@@ -47,6 +47,7 @@ export interface Site {
   images: string[];
   tags: string[];
   audioUrl?: string;
+  googleMapsQuery?: string;
   details?: SiteDetails;
 }
 
