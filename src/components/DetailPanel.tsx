@@ -434,13 +434,13 @@ export default function DetailPanel({ site, onClose }: DetailPanelProps) {
                 <div>
                   <p className="text-[10px] text-[#9a8e84]">Latitud</p>
                   <p className="text-xs font-bold font-mono" style={{ color }}>
-                    {site.lat.toFixed(6)}° N
+                    {site.lat.toFixed(4)}° N
                   </p>
                 </div>
                 <div>
                   <p className="text-[10px] text-[#9a8e84]">Longitud</p>
                   <p className="text-xs font-bold font-mono" style={{ color }}>
-                    {Math.abs(site.lng).toFixed(6)}° O
+                    {Math.abs(site.lng).toFixed(4)}° O
                   </p>
                 </div>
               </div>

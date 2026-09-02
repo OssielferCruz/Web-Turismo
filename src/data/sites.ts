@@ -7,8 +7,8 @@ export const SITES: Site[] = [
     shortName: "Alcaldía de León",
     category: "Patrimonio UNESCO",
     emoji: "🏛️",
-    lat: 12.435345491333722,
-    lng: -86.87924770224978,
+    lat: 12.4353,
+    lng: -86.8792,
     description:
       "Sede histórica del gobierno municipal de León construida en 1942 en el solar fundacional de la Plaza Mayor de 1573. Destaca por su elegante arquitectura Art Déco y su papel como principal centro de decisión política de la ciudad.",
     history:
@@ -46,8 +46,8 @@ export const SITES: Site[] = [
     shortName: "Palacio Departamental",
     category: "Museo",
     emoji: "🚩",
-    lat: 12.434555083393366,
-    lng: -86.87941013317791,
+    lat: 12.4346,
+    lng: -86.8794,
     description:
       "Emblemático inmueble neoclásico de 1935 que sirvió como sede del Gobierno Departamental. Hoy alberga el Museo de la Revolución, donde excombatientes guían a los visitantes entre fotografías, recortes de prensa y vestigios históricos.",
     history:
@@ -86,8 +86,8 @@ export const SITES: Site[] = [
     shortName: "Paraninfo UNAN",
     category: "Universidad",
     emoji: "🎓",
-    lat: 12.436824688948029,
-    lng: -86.87903824691963,
+    lat: 12.4368,
+    lng: -86.8790,
     description:
       "Edificio central y Salón de Actos Solemnes de la Universidad Nacional Autónoma de Nicaragua en León, fundada en 1812. Antiguo Convento de La Merced, es la cuna académica de la educación superior nicaragüense.",
     history:
@@ -126,8 +126,8 @@ export const SITES: Site[] = [
     shortName: "Iglesia de Zaragoza",
     category: "Iglesia",
     emoji: "⛪",
-    lat: 12.436994623467442,
-    lng: -86.88480604601969,
+    lat: 12.4370,
+    lng: -86.8848,
     description:
       "Singular templo romántico y ecléctico construido en piedra vista sin pintar entre 1884 y 1934. Conocida como la 'iglesia fortín', su arquitectura de sillería evoca la solidez de un castillo o baluarte defensivo.",
     history:
@@ -165,8 +165,8 @@ export const SITES: Site[] = [
     shortName: "Casa Debayle",
     category: "Salud / Historia",
     emoji: "🏥",
-    lat: 12.434135909371248,
-    lng: -86.87741416079231,
+    lat: 12.4341,
+    lng: -86.8774,
     description:
       "Casona colonial de 1814 donde el célebre Dr. Luis Henry Debayle fundó en 1900 la primera clínica privada de Centroamérica. Hoy es sede de la Escuela de Bellas Artes 'Mariana Sansón' y recinto cultural de la UNAN-León.",
     history:
@@ -206,8 +206,8 @@ export const SITES: Site[] = [
     shortName: "Colegio La Asunción",
     category: "Iglesia",
     emoji: "⛪",
-    lat: 12.43425541161125,
-    lng: -86.87893142440622,
+    lat: 12.4343,
+    lng: -86.8789,
     description:
       "Majestuoso conjunto arquitectónico constituido por el antiguo Palacio Episcopal de 1679 y la bellísima Capilla Neogótica trazada en 1935. Es un ícono de la educación y el patrimonio religioso de León.",
     history:
