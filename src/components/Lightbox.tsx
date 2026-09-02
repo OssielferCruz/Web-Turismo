@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 
 interface LightboxProps {
   images: string[];
@@ -19,34 +20,34 @@ export default function Lightbox({ images, startIndex, onClose }: LightboxProps)
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [images.length, onClose]);
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 bg-black/90 z-[9999] flex items-center justify-center p-4 animate-fade-in backdrop-blur-sm"
+      className="fixed inset-0 bg-black/95 z-[999999] flex items-center justify-center p-4 animate-fade-in backdrop-blur-md"
       onClick={onClose}
     >
       <div
-        className="relative max-w-[92vw] max-h-[92vh] flex flex-col items-center justify-center"
+        className="relative max-w-[95vw] max-h-[95vh] flex flex-col items-center justify-center"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Main Image */}
         <img
           src={images[idx]}
           alt=""
-          className="max-w-[90vw] max-h-[76vh] object-contain rounded-lg shadow-2xl transition-all duration-200"
+          className="max-w-[90vw] max-h-[78vh] object-contain rounded-xl shadow-2xl transition-all duration-200"
         />
 
         {/* Counter Badge */}
-        <div className="absolute top-3 left-3 bg-black/60 text-white rounded px-2.5 py-1 text-xs font-mono backdrop-blur-xs">
+        <div className="absolute top-4 left-4 bg-black/70 text-white rounded-full px-3 py-1 text-xs font-mono backdrop-blur-md border border-white/20">
           {idx + 1} / {images.length}
         </div>
 
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 w-8 h-8 bg-black/60 hover:bg-black/80 text-white text-xl rounded-md flex items-center justify-center cursor-pointer transition-colors backdrop-blur-xs"
+          className="absolute top-4 right-4 w-9 h-9 bg-black/70 hover:bg-black text-white text-xl rounded-full flex items-center justify-center cursor-pointer transition-colors backdrop-blur-md border border-white/20"
           title="Cerrar (Esc)"
         >
-          ×
+          ✕
         </button>
 
         {/* Previous / Next Arrows */}
@@ -54,14 +55,14 @@ export default function Lightbox({ images, startIndex, onClose }: LightboxProps)
           <>
             <button
               onClick={() => setIdx((p) => (p - 1 + images.length) % images.length)}
-              className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-black/80 text-white text-2xl rounded-full flex items-center justify-center cursor-pointer transition-colors backdrop-blur-xs"
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 bg-black/60 hover:bg-black text-white text-2xl rounded-full flex items-center justify-center cursor-pointer transition-colors backdrop-blur-md border border-white/20 shadow-lg"
               title="Anterior"
             >
               ‹
             </button>
             <button
               onClick={() => setIdx((p) => (p + 1) % images.length)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-black/80 text-white text-2xl rounded-full flex items-center justify-center cursor-pointer transition-colors backdrop-blur-xs"
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 bg-black/60 hover:bg-black text-white text-2xl rounded-full flex items-center justify-center cursor-pointer transition-colors backdrop-blur-md border border-white/20 shadow-lg"
               title="Siguiente"
             >
               ›
@@ -71,21 +72,22 @@ export default function Lightbox({ images, startIndex, onClose }: LightboxProps)
 
         {/* Thumbnail Carousel */}
         {images.length > 1 && (
-          <div className="flex gap-2 mt-4 overflow-x-auto max-w-full px-2 py-1 scrollbar-none">
+          <div className="flex gap-2 mt-4 overflow-x-auto max-w-full px-3 py-1.5 scrollbar-none bg-black/40 rounded-xl border border-white/10 backdrop-blur-sm">
             {images.map((img, i) => (
               <button
                 key={i}
                 onClick={() => setIdx(i)}
-                className={`flex-shrink-0 border-2 rounded transition-all cursor-pointer overflow-hidden ${
-                  i === idx ? "border-white scale-105" : "border-transparent opacity-50 hover:opacity-80"
+                className={`flex-shrink-0 border-2 rounded-lg transition-all cursor-pointer overflow-hidden ${
+                  i === idx ? "border-white scale-105 shadow-md" : "border-transparent opacity-50 hover:opacity-90"
                 }`}
               >
-                <img src={img} alt="" className="w-14 h-10 object-cover" />
+                <img src={img} alt="" className="w-16 h-11 object-cover" />
               </button>
             ))}
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
