@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "name": "Catedral de León — Basílica de la Asunción",
+    "shortName": "Catedral de León",
+    "category": "Patrimonio UNESCO",
+    "emoji": "⛪",
+    "lat": 12.4357,
+    "lng": -86.8786,
+    "description": "La catedral más grande de Centroamérica y Patrimonio de la Humanidad desde 2011. Construida entre 1747 y 1860, su arquitectura barroco-neoclásica domina el horizonte leonés. Alberga los restos del poeta Rubén Darío.",
+    "history": "Diseñada por Diego de Porres. Según la leyenda, los planos enviados al rey de España fueron reemplazados por los de la catedral de Lima para obtener aprobación de una obra más monumental. Su construcción duró más de un siglo.",
+    "tips": "Sube al techo (C$50) para una vista panorámica única de volcanes y tejados coloniales. Visita temprano en la mañana para la mejor luz fotográfica.",
+    "schedule": "Lun–Sáb 08:00–18:00 · Dom 08:00–20:00",
+    "rating": 4.9,
+    "reviews": 2840,
+    "visitors": "180.000/año",
+    "entrance": "Libre · Techo C$50",
+    "duration": "1–2 horas",
+    "difficulty": "Fácil",
+    "images": [
+      "https://images.unsplash.com/photo-1684861746842-7115e4530437?w=900&h=600&fit=crop&auto=format",
+      "https://images.unsplash.com/photo-1710172908681-bd2e80d776c0?w=900&h=600&fit=crop&auto=format",
+      "https://images.unsplash.com/photo-1549038281-29bba1500022?w=900&h=600&fit=crop&auto=format"
+    ],
+    "tags": ["UNESCO", "Arquitectura", "Historia", "Arte"]
+  },
+  {
+    "id": 2,
+    "name": "Volcán Cerro Negro",
+    "shortName": "Cerro Negro",
+    "category": "Volcán",
+    "emoji": "🌋",
+    "lat": 12.5063,
+    "lng": -86.7022,
+    "description": "El volcán más joven de América Central (1850). Ofrece volcano boarding: deslizarse por arena negra volcánica a más de 80 km/h en una experiencia única en el mundo.",
+    "history": "Ha tenido más de 23 erupciones desde su formación. La más reciente fue en 1999. Su paisaje de lapilli negro contrasta dramáticamente con los verdes de las llanuras de León.",
+    "tips": "Contrata un tour desde León (C$400–800 pp) que incluya equipo. La subida toma ~45 min. Lleva protector solar, gafas y ropa que puedas ensuciar.",
+    "schedule": "Todos los días · 08:00 y 13:00",
+    "rating": 4.8,
+    "reviews": 1950,
+    "visitors": "45.000/año",
+    "entrance": "US$5 pp",
+    "duration": "4–6 horas",
+    "difficulty": "Moderado",
+    "images": [
+      "https://images.unsplash.com/photo-1562568580-4069f5f8845e?w=900&h=600&fit=crop&auto=format",
+      "https://images.unsplash.com/photo-1684861474571-8a4f8c3f25d6?w=900&h=600&fit=crop&auto=format",
+      "https://images.unsplash.com/photo-1684861746842-7115e4530437?w=900&h=600&fit=crop&auto=format"
+    ],
+    "tags": ["Aventura", "Naturaleza", "Deporte extremo"]
+  }
+]
