@@ -67,12 +67,9 @@ export default function DetailPanel({ site, onClose }: DetailPanelProps) {
   };
 
   const openGoogleMapsLocation = () => {
-    const url = `https://www.google.com/maps/search/?api=1&query=${site.lat},${site.lng}`;
-    window.open(url, "_blank");
-  };
-
-  const openGoogleMapsRoute = () => {
-    const url = `https://www.google.com/maps/dir/?api=1&destination=${site.lat},${site.lng}`;
+    // Redirige al lugar exacto en Google Maps buscando por Nombre Oficial + Ciudad
+    const searchQuery = `${site.details?.officialName || site.name}, León, Nicaragua`;
+    const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(searchQuery)}`;
     window.open(url, "_blank");
   };
 
@@ -450,22 +447,15 @@ export default function DetailPanel({ site, onClose }: DetailPanelProps) {
             </div>
           </div>
 
-          {/* Google Maps Actions Grid */}
-          <div className="flex flex-col gap-2 mt-1 pb-2">
+          {/* Google Maps Action Button */}
+          <div className="mt-1 pb-2">
             <button
               onClick={openGoogleMapsLocation}
-              className="w-full py-2.5 px-4 rounded-xl text-white font-bold font-['Outfit',sans-serif] text-xs sm:text-sm tracking-wide shadow-md hover:opacity-95 active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-3 px-4 rounded-xl text-white font-bold font-['Outfit',sans-serif] text-xs sm:text-sm tracking-wide shadow-md hover:opacity-95 active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
               style={{ backgroundColor: color }}
             >
               <span>📍</span>
               <span>Ver pin exacto en Google Maps</span>
-            </button>
-            <button
-              onClick={openGoogleMapsRoute}
-              className="w-full py-2 px-4 rounded-xl bg-[#f7f4f1] hover:bg-[#eae4df] text-[#3d3430] border border-[#e5ddd5] font-semibold font-['Outfit',sans-serif] text-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <span>🚗</span>
-              <span>Cómo llegar (Ruta GPS)</span>
             </button>
           </div>
         </div>
