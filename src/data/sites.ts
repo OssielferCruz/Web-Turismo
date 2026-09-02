@@ -29,7 +29,7 @@ export const SITES: Site[] = [
     ],
     tags: ["Art Déco", "Gobierno", "Historia", "Plaza Mayor"],
     audioUrl: "",
-    googleMapsQuery: "Alcaldia Municipal de León",
+    googleMapsQuery: "Alcaldía Municipal de León",
     details: {
       officialName: "Alcaldía Municipal de León",
       constructionDate: "1942 (Solar ocupado desde finales del s. XVIII por el Cabildo Colonial)",
@@ -37,7 +37,7 @@ export const SITES: Site[] = [
       functionInfo: "Original y Actual: Sede del gobierno municipal y principal órgano político administrativo de León.",
       architecturalStyle: "Art Déco de los años 20 (Volumetría rectangular con simetría de vanos verticales y horizontales)",
       historicalImportance: "Ocupa el solar fundacional de la Plaza Mayor establecida en 1573 por las Ordenanzas de Nueva Población de Felipe II.",
-      distinctiveElements: "Balcón de fachada que acentúa el relief del edificio; interior dividido entre área administrativa y sector cultural-recreativo."
+      distinctiveElements: "Balcón de fachada que acentúa el relieve del edificio; interior dividido entre área administrativa y sector cultural-recreativo."
     }
   },
   {
@@ -148,7 +148,7 @@ export const SITES: Site[] = [
     ],
     tags: ["Románico", "Piedra Vista", "Iglesia Fortín", "Colonial"],
     audioUrl: "",
-    googleMapsQuery: "Iglesia Nuestra Señora del Pilar de Zaragoza",
+    googleMapsQuery: "Parroquia de Nuestra Señora del Pilar de Zaragoza",
     details: {
       officialName: "Iglesia Nuestra Señora del Pilar de Zaragoza",
       constructionDate: "1884-1886 (Inicios) - 1934 (Conclusión)",
