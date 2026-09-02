@@ -7,21 +7,6 @@ interface ListViewProps {
   lang?: Language;
 }
 
-function Stars({ rating }: { rating: number }) {
-  return (
-    <span className="flex items-center gap-0.5">
-      {[1, 2, 3, 4, 5].map((i) => (
-        <svg key={i} width="11" height="11" viewBox="0 0 12 12">
-          <polygon
-            points="6,1 7.5,4.5 11,5 8.5,7.5 9,11 6,9.5 3,11 3.5,7.5 1,5 4.5,4.5"
-            fill={i <= Math.round(rating) ? "#e97c2e" : "#e5ddd5"}
-          />
-        </svg>
-      ))}
-    </span>
-  );
-}
-
 export default function ListView({ sites, onSelectSite, lang = "es" }: ListViewProps) {
   return (
     <div className="flex-1 overflow-y-auto p-4 sm:p-7 bg-[#f5f0eb] pb-20 md:pb-8">
@@ -80,19 +65,9 @@ export default function ListView({ sites, onSelectSite, lang = "es" }: ListViewP
                 {/* Card Body */}
                 <div className="p-4 flex-1 flex flex-col justify-between">
                   <div>
-                    <h3 className="font-['Outfit',sans-serif] text-sm font-bold text-[#1a1612] group-hover:text-[#c2622a] transition-colors leading-snug">
+                    <h3 className="font-['Outfit',sans-serif] text-sm font-bold text-[#1a1612] group-hover:text-[#c2622a] transition-colors leading-snug mb-2">
                       {displayName}
                     </h3>
-
-                    <div className="flex items-center gap-1.5 mt-1.5 mb-2">
-                      <Stars rating={site.rating ?? 4.8} />
-                      <span className="text-xs font-bold font-mono text-[#e97c2e]">
-                        {site.rating ?? 4.8}
-                      </span>
-                      {site.visitors && (
-                        <span className="text-[10px] text-[#bdb0a6]">· {site.visitors}</span>
-                      )}
-                    </div>
 
                     <p className="text-xs text-[#6b6059] line-clamp-2 leading-relaxed mb-3">
                       {displayDesc}

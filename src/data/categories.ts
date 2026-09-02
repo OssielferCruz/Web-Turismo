@@ -9,17 +9,18 @@ export const CATEGORIES: Record<string, CategoryDetails> = {
   "Playa":              { color: "#0e7490", accent: "#ecfeff", label: "Playa / Ecoturismo", labelEn: "Beach / Ecotourism" },
   "Iglesia":            { color: "#b45309", accent: "#fffbeb", label: "Iglesia Colonial", labelEn: "Colonial Church" },
   "Teatro":             { color: "#7c3aed", accent: "#f5f3ff", label: "Teatro", labelEn: "Theater" },
-  "Salud / Historia":   { color: "#be185d", accent: "#fdf2f8", label: "Salud / Historia", labelEn: "Health / History" },
+  "Arte / Cultura":     { color: "#be185d", accent: "#fdf2f8", label: "Arte & Cultura", labelEn: "Art & Culture" },
+  "Salud / Historia":   { color: "#be185d", accent: "#fdf2f8", label: "Arte & Cultura", labelEn: "Art & Culture" },
   "Universidad":        { color: "#15803d", accent: "#f0fdf4", label: "Universidad", labelEn: "University" },
   "Parque":             { color: "#16a34a", accent: "#f0fdf4", label: "Parque / Plaza", labelEn: "Park / Plaza" },
 };
 
 export function getCategoryColor(category: string): string {
-  return CATEGORIES[category]?.color ?? "#6b7280";
+  return CATEGORIES[category]?.color ?? "#be185d";
 }
 
 export function getCategoryAccent(category: string): string {
-  return CATEGORIES[category]?.accent ?? "#f9fafb";
+  return CATEGORIES[category]?.accent ?? "#fdf2f8";
 }
 
 export function getCategoryLabel(category: string, lang: "es" | "en" = "es"): string {

@@ -84,8 +84,8 @@ export default function Header({
           className="flex items-center gap-1.5 px-3 py-1 bg-[#1a1612] hover:bg-[#322822] text-white border border-[#4a3d35] rounded-full text-xs font-bold font-['Outfit',sans-serif] transition-all cursor-pointer shadow-xs active:scale-95"
           title={lang === "es" ? "Switch to English" : "Cambiar a Español"}
         >
-          <span className="text-sm">{lang === "es" ? "🇬🇧" : "🇪🇸"}</span>
-          <span>{lang === "es" ? "English" : "Español"}</span>
+          <span className="text-sm">{lang === "es" ? "🇪🇸" : "🇬🇧"}</span>
+          <span>{lang === "es" ? "Español" : "English"}</span>
         </button>
 
         {/* Counter Badge */}

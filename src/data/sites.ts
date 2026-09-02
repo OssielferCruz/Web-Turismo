@@ -252,8 +252,8 @@ export const SITES: Site[] = [
     id: 5,
     name: "Antigua Casa de Salud Debayle",
     shortName: "Casa Debayle",
-    category: "Salud / Historia",
-    emoji: "🏥",
+    category: "Arte / Cultura",
+    emoji: "🎨",
     lat: 12.434135909371248,
     lng: -86.87741416079231,
     description:
@@ -278,7 +278,7 @@ export const SITES: Site[] = [
       "/Fotos/CasaDebayle/Casadebayle4.jpeg",
       "/Fotos/CasaDebayle/Casadebayle5.jpeg",
     ],
-    tags: ["Colonial", "Medicina", "Bellas Artes", "Historia"],
+    tags: ["Bellas Artes", "Cultura", "Escuela de Arte", "Colonial"],
     audioUrl: "/audios/casadebayle.mp3",
     audioUrlEn: "/audios_en/cadadebayleingles.mp3",
     googleMapsQuery: 'Escuela De Bellas Artes "Mariana Sansón Argüello"',
@@ -300,7 +300,7 @@ export const SITES: Site[] = [
     },
     nameEn: "Former Debayle Health House",
     shortNameEn: "Debayle House",
-    categoryEn: "Health / History",
+    categoryEn: "Art & Culture",
     descriptionEn:
       "1814 colonial mansion where Dr. Luis Henry Debayle founded Central America's first private clinic in 1900. Today it houses the 'Mariana Sansón' School of Fine Arts.",
     historyEn:
@@ -311,7 +311,7 @@ export const SITES: Site[] = [
     entranceEn: "C$30 pp",
     durationEn: "45–60 min",
     difficultyEn: "Easy",
-    tagsEn: ["Colonial", "Medicine", "Fine Arts", "History"]
+    tagsEn: ["Fine Arts", "Culture", "Art School", "Colonial"]
   },
   {
     id: 6,

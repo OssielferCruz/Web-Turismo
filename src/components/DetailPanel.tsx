@@ -10,21 +10,6 @@ interface DetailPanelProps {
   lang?: Language;
 }
 
-function Stars({ rating }: { rating: number }) {
-  return (
-    <span className="flex items-center gap-0.5">
-      {[1, 2, 3, 4, 5].map((i) => (
-        <svg key={i} width="12" height="12" viewBox="0 0 12 12">
-          <polygon
-            points="6,1 7.5,4.5 11,5 8.5,7.5 9,11 6,9.5 3,11 3.5,7.5 1,5 4.5,4.5"
-            fill={i <= Math.round(rating) ? "#e97c2e" : "#e5ddd5"}
-          />
-        </svg>
-      ))}
-    </span>
-  );
-}
-
 function formatTime(sec: number): string {
   if (isNaN(sec) || sec < 0) return "0:00";
   const m = Math.floor(sec / 60);
@@ -201,20 +186,11 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
 
         {/* Panel Content Body */}
         <div className="p-4 sm:p-5 flex flex-col gap-4">
-          {/* Title and Rating */}
+          {/* Title */}
           <div>
             <h2 className="text-xl font-bold font-['Outfit',sans-serif] text-[#1a1612] leading-snug">
               {displayName}
             </h2>
-            <div className="flex items-center gap-2 mt-1.5">
-              <Stars rating={site.rating ?? 4.8} />
-              <span className="text-xs font-bold font-mono text-[#e97c2e]">
-                {site.rating ?? 4.8}
-              </span>
-              <span className="text-xs text-[#9a8e84]">
-                ({(site.reviews ?? 300).toLocaleString("es-NI")} {lang === "en" ? "reviews" : "reseñas"})
-              </span>
-            </div>
 
             {/* Tags */}
             <div className="flex flex-wrap gap-1.5 mt-2.5">

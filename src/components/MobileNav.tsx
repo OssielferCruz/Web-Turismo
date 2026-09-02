@@ -49,8 +49,8 @@ export default function MobileNav({
         className="flex flex-col items-center justify-center flex-1 py-1 text-[#1a1612] font-bold transition-all cursor-pointer"
         title={lang === "es" ? "Switch to English" : "Cambiar a Español"}
       >
-        <span className="text-base leading-none mb-0.5">{lang === "es" ? "🇬🇧" : "🇪🇸"}</span>
-        <span className="text-[10px] font-['Outfit',sans-serif]">{lang === "es" ? "EN" : "ES"}</span>
+        <span className="text-base leading-none mb-0.5">{lang === "es" ? "🇪🇸" : "🇬🇧"}</span>
+        <span className="text-[10px] font-['Outfit',sans-serif]">{lang === "es" ? "ES" : "EN"}</span>
       </button>
     </nav>
   );
