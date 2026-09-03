@@ -152,7 +152,7 @@ export const SITES: Site[] = [
       "/Fotos/Paraninfo/paraninfo3.jpg",
       "/Fotos/Paraninfo/paraninfo4.jpg",
     ],
-    tags: ["Ecléctico", "Universidad", "Colonial", "UNAN"],
+    tags: ["Historicista", "Universidad", "Colonial", "UNAN"],
     audioUrl: "/audios/paraninfo.mp3",
     audioUrlEn: "/audios_en/paraninfoingles.mp3",
     googleMapsQuery: "Paraninfo UNAN-León",
@@ -161,31 +161,31 @@ export const SITES: Site[] = [
       constructionDate: "1887 - 1899 (Adaptación del Convento de La Merced de 1680)",
       architect: "Diseñado por el Arq. José Mateu",
       functionInfo: "Original: Convento de La Merced. Actual: Rectoría, Vicerrectoría, Biblioteca Central y Paraninfo de la UNAN-León.",
-      architecturalStyle: "Eclecticism peculiar de 2 niveles en disposición simétrica elegante",
-      historicalImportance: "Cuna de la educación universitaria nicaragüense (1812) y sitio histórico donde se proclamo la victoria revolucionaria de 1979.",
-      distinctiveElements: "Carpintería artesanal labrada, pilastras en bajorrelieve en la biblioteca y ventanas interiores partidas con columnitas salomónicas (ajimez).",
+      architecturalStyle: "Estilo historicista de 2 niveles en disposición simétrica con elegancia artesanal",
+      historicalImportance: "Cuna de la educación universitaria nicaragüense (1812) y sitio histórico donde el 18 de julio de 1979 se instaló la Junta de Gobierno de Reconstrucción Nacional.",
+      distinctiveElements: "Fina carpintería labrada, pilastras en bajorrelieve en la biblioteca y ventanas de medio punto en corredores interiores divididas por columnas salomónicas (ajimez).",
       officialNameEn: "Paraninfo / Central Building of UNAN-León (Former Convent of La Merced)",
       constructionDateEn: "1887 - 1899 (Adaptation of the 1680 Convent of La Merced)",
       architectEn: "Designed by Arch. José Mateu",
       functionInfoEn: "Original: Convent of La Merced. Current: Rectorate, Vice-Rectorate, Central Library, and Paraninfo Hall.",
-      architecturalStyleEn: "Peculiar two-story Eclecticism with elegant symmetrical layout",
-      historicalImportanceEn: "Cradle of higher education in Nicaragua (1812) and historic site of the 1979 revolutionary victory declaration.",
-      distinctiveElementsEn: "Handcrafted carved woodwork, bas-relief pilasters in the library, and split interior windows with Solomonic columns."
+      architecturalStyleEn: "Two-story Historicist style in elegant symmetrical layout",
+      historicalImportanceEn: "Cradle of higher education in Nicaragua (1812) and historic site where the National Reconstruction Junta was installed on July 18, 1979.",
+      distinctiveElementsEn: "Finely carved woodwork, bas-relief pilasters in the library, and arched interior windows divided by Solomonic columns."
     },
     nameEn: "Paraninfo UNAN-León",
     shortNameEn: "Paraninfo UNAN",
     categoryEn: "University",
     descriptionEn:
-      "Central building and Solemn Assembly Hall of the National Autonomous University of Nicaragua in León, founded in 1812. Former Convent of La Merced.",
+      "Central building and Solemn Assembly Hall of UNAN-León. Designed by José Mateu, it features a 2-story historicist style layout over the former 1680 Convent of La Merced.",
     historyEn:
-      "Originally the Convent of La Merced (1680), converted into the university headquarters between 1887 and 1899. On July 18, 1979, the National Reconstruction Junta was installed here.",
+      "Headquarters of UNAN-León (founded 1812). Converted into university headquarters (1887-1899). On July 18, 1979, the National Reconstruction Junta was installed here.",
     tipsEn:
       "Visit the colonial central courtyard and library. Open exhibitions about poet Rubén Darío are often displayed.",
     scheduleEn: "Mon–Fri 08:00–17:00",
     entranceEn: "Free Admission (Common Areas)",
     durationEn: "30–45 min",
     difficultyEn: "Easy",
-    tagsEn: ["Eclectic", "University", "Colonial", "UNAN"]
+    tagsEn: ["Historicist", "University", "Colonial", "UNAN"]
   },
   {
     id: 4,
@@ -196,9 +196,9 @@ export const SITES: Site[] = [
     lat: 12.436994623467442,
     lng: -86.88480604601969,
     description:
-      "Singular templo romántico y ecléctico construido en piedra vista sin pintar entre 1884 y 1934. Conocida como la 'iglesia fortín', su arquitectura de sillería evoca la solidez de un castillo o baluarte defensivo.",
+      "Templo católico parroquial construido entre 1884 y 1934 en piedra visible. Su diseño combina estilo historicista de inspiración románica con toques medievales que le otorgan apariencia de fortaleza o castillo.",
     history:
-      "La construcción inició entre 1884 y 1886 y concluyó en 1934 bajo la dirección de Monseñor Salmerón y el Dr. Francisco Mateo. Su posición en el límite urbano histórico con el pueblo indígena de Sutiava le otorgó un carácter defensivo militar único.",
+      "Construcción iniciada entre 1884-1886 y concluida en 1934 por Monseñor Salmerón, con frontis diseñado por el Dr. Francisco Mateo. Su posición en el límite urbano histórico con Sutiava funcionaba para resguardar la ciudad de posibles insurrecciones.",
     tips:
       "Destaca por ser la única iglesia de León cuya fachada es íntegramente de piedra cantera sin repello ni pintura. Hermosa iluminación al atardecer.",
     schedule: "Lun–Dom 07:00–18:00",
@@ -213,7 +213,7 @@ export const SITES: Site[] = [
       "/Fotos/Zaragoza/zaragoza2.jpeg",
       "/Fotos/Zaragoza/zaragoza3.jpeg",
     ],
-    tags: ["Románico", "Piedra Vista", "Iglesia Fortín", "Colonial"],
+    tags: ["Historicista", "Material Visible", "Iglesia Fortín", "Colonial"],
     audioUrl: "/audios/zaragoza.mp3",
     audioUrlEn: "/audios_en/zaragozaingles.mp3",
     googleMapsQuery: "Parroquia de Nuestra Señora del Pilar de Zaragoza",
@@ -222,31 +222,31 @@ export const SITES: Site[] = [
       constructionDate: "1884-1886 (Inicios) - 1934 (Conclusión)",
       architect: "Concluida por Monseñor Salmerón; frontis diseñado por el Dr. Francisco Mateo",
       functionInfo: "Original y Actual: Templo católico parroquial (Uso constante sin interrupciones).",
-      architecturalStyle: "Estilo ecléctico romántico de inspiración románica con detalles de arquitectura militar",
-      historicalImportance: "Única 'iglesia fortín' entre las 16 iglesias coloniales de León, diseñada para resguardar la frontera entre León colonial y el asentamiento indígena de Sutiava.",
-      distinctiveElements: "Construcción en sillería de piedra vista sin pintar, fachada tipo fortaleza y torre campanario central piramidal de 3 cuerpos.",
+      architecturalStyle: "Estilo historicista con fachada de inspiración románica y detalles de arquitectura militar de apariencia fortificada",
+      historicalImportance: "Única entre las 16 iglesias coloniales de León por su carácter de iglesia fortín, ligada a su ubicación estratégica en el límite urbano histórico junto al asentamiento indígena de Sutiava para contener posibles insurrecciones.",
+      distinctiveElements: "Construcción en sillería de piedra visible sin frontis decorado ni pintado, lo que le da la apariencia de una fortaleza o castillo, coronada con un campanario de torre de tres cuerpos centrada y cubierta piramidal a cuatro aguas.",
       officialNameEn: "Parish Church of Our Lady of the Pillar of Zaragoza",
       constructionDateEn: "1884-1886 (Initiation) - 1934 (Completion)",
       architectEn: "Completed by Monsignor Salmerón; front facade designed by Dr. Francisco Mateo",
       functionInfoEn: "Original & Current: Parish Catholic Church (Uninterrupted use).",
-      architecturalStyleEn: "Eclectic romantic style of Romanesque inspiration with military architecture details",
-      historicalImportanceEn: "Only 'fortress church' among León's 16 colonial churches, designed to safeguard the border between colonial León and Sutiava.",
-      distinctiveElementsEn: "Built entirely in unpainted ashlar stone, fortress-type facade, and 3-tiered pyramid central bell tower."
+      architecturalStyleEn: "Historicist style with Romanesque-inspired facade and military fortress architecture details",
+      historicalImportanceEn: "Unique among León's 16 colonial churches for its fortress character, strategically located on the historic border next to Sutiava to contain potential uprisings.",
+      distinctiveElementsEn: "Built in visible unpainted ashlar stone without a decorated front, giving it the appearance of a fortress, crowned with a 3-tiered central bell tower and four-sided pyramidal roof."
     },
     nameEn: "Our Lady of the Pillar Zaragoza Church",
     shortNameEn: "Zaragoza Church",
     categoryEn: "Colonial Church",
     descriptionEn:
-      "Unique romantic and eclectic temple built in unpainted exposed stone between 1884 and 1934. Known as the 'fortress church', its stone masonry evokes a castle.",
+      "Parish Catholic church built between 1884 and 1934 in visible stone. Its historicist design combines Romanesque inspiration with medieval fortress details.",
     historyEn:
-      "Construction began in 1884 and concluded in 1934 under Monsignor Salmerón and Dr. Francisco Mateo. Located on the historic urban border with Sutiava.",
+      "Construction began between 1884-1886 and concluded in 1934 by Monsignor Salmerón, with a front facade designed by Dr. Francisco Mateo. Located on the border with Sutiava to safeguard the city.",
     tipsEn:
       "Unique among León's 16 churches for its quarry stone facade without plaster or paint. Beautiful lighting at sunset.",
     scheduleEn: "Mon–Sun 07:00–18:00",
     entranceEn: "Free Admission",
     durationEn: "30–45 min",
     difficultyEn: "Easy",
-    tagsEn: ["Romanesque", "Exposed Stone", "Fortress Church", "Colonial"]
+    tagsEn: ["Historicist", "Exposed Material", "Fortress Church", "Colonial"]
   },
   {
     id: 5,
