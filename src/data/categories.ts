@@ -7,7 +7,7 @@ export const CATEGORIES: Record<string, CategoryDetails> = {
   "Arqueología":        { color: "#7c5c38", accent: "#fdf8f2", label: "Arqueología", labelEn: "Archaeology" },
   "Museo":              { color: "#1d4ed8", accent: "#eff6ff", label: "Museo", labelEn: "Museum" },
   "Playa":              { color: "#0e7490", accent: "#ecfeff", label: "Playa / Ecoturismo", labelEn: "Beach / Ecotourism" },
-  "Iglesia":            { color: "#b45309", accent: "#fffbeb", label: "Iglesia Colonial", labelEn: "Colonial Church" },
+  "Iglesia":            { color: "#b45309", accent: "#fffbeb", label: "Templo", labelEn: "Temple" },
   "Teatro":             { color: "#7c3aed", accent: "#f5f3ff", label: "Teatro", labelEn: "Theater" },
   "Arte / Cultura":     { color: "#be185d", accent: "#fdf2f8", label: "Arte & Cultura", labelEn: "Art & Culture" },
   "Salud / Historia":   { color: "#be185d", accent: "#fdf2f8", label: "Arte & Cultura", labelEn: "Art & Culture" },
