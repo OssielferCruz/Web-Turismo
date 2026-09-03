@@ -238,7 +238,7 @@ export default function AboutView({ lang = "es" }: AboutViewProps) {
               <span className="text-2xl">🖼️</span>
               <div>
                 <h4 className="font-['Outfit',sans-serif] text-sm font-bold text-white">
-                  {isEn ? "High-Resolution Photo Gallery" : "Galería Fotográfica en Alta Resolución"}
+                  {isEn ? "Photo Gallery" : "Galería Fotográfica"}
                 </h4>
                 <p className="text-xs text-[#b8a99c] mt-1 leading-relaxed">
                   {isEn
