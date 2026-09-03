@@ -11,7 +11,7 @@ export const UI_TRANSLATIONS: Record<Language, Record<string, string>> = {
     categoriesTitle: "Categorías de Sitios",
     filterNotice: "Haz clic para filtrar marcadores",
     toggleLangBtn: "🇬🇧 EN",
-    
+
     // Sidebar / List
     totalPlaces: "6 Lugares Históricos de León",
     noResults: "No se encontraron sitios con esa búsqueda.",

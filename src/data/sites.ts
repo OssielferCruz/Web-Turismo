@@ -213,7 +213,7 @@ export const SITES: Site[] = [
       "/Fotos/Zaragoza/zaragoza2.jpeg",
       "/Fotos/Zaragoza/zaragoza3.jpeg",
     ],
-    tags: ["Historicista", "Material Visible", "Iglesia Fortín", "Colonial"],
+    tags: ["Historicista", "Material Visible", "Iglesia Fortín"],
     audioUrl: "/audios/zaragoza.mp3",
     audioUrlEn: "/audios_en/zaragozaingles.mp3",
     googleMapsQuery: "Parroquia de Nuestra Señora del Pilar de Zaragoza",
@@ -246,7 +246,7 @@ export const SITES: Site[] = [
     entranceEn: "Free Admission",
     durationEn: "30–45 min",
     difficultyEn: "Easy",
-    tagsEn: ["Historicist", "Exposed Material", "Fortress Church", "Colonial"]
+    tagsEn: ["Historicist", "Exposed Material", "Fortress Church"]
   },
   {
     id: 5,
