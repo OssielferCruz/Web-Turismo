@@ -8,7 +8,7 @@ export default function AboutView({ lang = "es" }: AboutViewProps) {
   const isEn = lang === "en";
 
   return (
-    <div className="flex-1 overflow-y-auto bg-[#faf7f4] pb-24 md:pb-12 text-[#2d2420]">
+    <div className="flex-1 overflow-y-auto bg-[#faf7f4] pb-36 md:pb-12 text-[#2d2420]">
       {/* Hero Cover Header */}
       <div className="relative bg-gradient-to-r from-[#1a1612] via-[#2a1e17] to-[#3d2b20] text-white py-12 px-6 sm:px-12 border-b border-[#4a3d35] shadow-lg">
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">

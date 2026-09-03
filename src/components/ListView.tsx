@@ -9,7 +9,7 @@ interface ListViewProps {
 
 export default function ListView({ sites, onSelectSite, lang = "es" }: ListViewProps) {
   return (
-    <div className="flex-1 overflow-y-auto p-4 sm:p-7 bg-[#f5f0eb] pb-20 md:pb-8">
+    <div className="flex-1 overflow-y-auto p-4 sm:p-7 bg-[#f5f0eb] pb-36 md:pb-10">
       <div className="max-w-6xl mx-auto">
         <div className="mb-6">
           <h2 className="font-['Outfit',sans-serif] text-xl sm:text-2xl font-bold text-[#1a1612]">
