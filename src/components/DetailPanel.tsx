@@ -128,10 +128,11 @@ export default function DetailPanel({ site, onClose, lang = "es" }: DetailPanelP
         <Lightbox images={images} startIndex={lbIdx} onClose={() => setLbIdx(null)} />
       )}
 
-      {/* Elemento de Audio HTML5 cargado con la URL del idioma de audio activo */}
+      {/* Elemento de Audio HTML5 cargado con la URL del idioma de audio activo y precarga automatica */}
       <audio
         ref={audioRef}
         src={currentAudioUrl || ""}
+        preload="auto"
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
         onDurationChange={handleLoadedMetadata}
