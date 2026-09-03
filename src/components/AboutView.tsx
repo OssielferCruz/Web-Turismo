@@ -18,7 +18,7 @@ export default function AboutView({ lang = "es" }: AboutViewProps) {
               <span>León, Nicaragua · 12.4353° N, 86.8792° W</span>
             </div>
             <h1 className="font-['Outfit',sans-serif] text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
-              {isEn ? "Santiago de los Caballeros de León" : "Santiago de los Caballeros de León"}
+              Santiago de los Caballeros de León
             </h1>
             <p className="text-sm sm:text-base text-[#d4c5b9] leading-relaxed font-light">
               {isEn
@@ -69,8 +69,8 @@ export default function AboutView({ lang = "es" }: AboutViewProps) {
               </p>
               <p>
                 {isEn
-                  ? "Its cobblestone streets have witnessed historic milestones, from independence struggles to the 1979 proclamation of the National Reconstruction Government Junta in the historic Paraninfo."
-                  : "Sus calles adoquinadas han sido testigo de momentos trascendentales, desde las gestas independentistas hasta la proclamación de la Junta de Gobierno de Reconstrucción Nacional en 1979 en el histórico Paraninfo."}
+                  ? "Its cobblestone streets have witnessed historic milestones, from independence struggles to the July 18, 1979 installation of the National Reconstruction Government Junta in the historic Paraninfo."
+                  : "Sus calles adoquinadas han sido testigo de momentos trascendentales, desde las gestas independentistas hasta la instalación de la Junta de Gobierno de Reconstrucción Nacional el 18 de julio de 1979 en el histórico Paraninfo."}
               </p>
             </div>
           </div>
@@ -131,12 +131,12 @@ export default function AboutView({ lang = "es" }: AboutViewProps) {
               </div>
               <div>
                 <h3 className="font-['Outfit',sans-serif] text-base font-bold text-[#1a1612]">
-                  {isEn ? "Romantic / Fortress Church Style" : "Romántico Militante / Iglesia Fortín"}
+                  {isEn ? "Historicist & Fortress Church Style" : "Estilo Historicista e Iglesia Fortín"}
                 </h3>
                 <p className="text-xs sm:text-sm text-[#5c524c] mt-1 leading-relaxed">
                   {isEn
-                    ? "Unique among León's 16 churches, Our Lady of the Pillar Zaragoza Church (1884–1934) was built in exposed unpainted quarry stone, evoking a colonial defense bastion."
-                    : "Única en su clase entre las 16 iglesias de León, la Iglesia Nuestra Señora del Pilar de Zaragoza (1884–1934) fue levantada en sillería de piedra vista sin pintar, emulando la solidez de un baluarte defensivo colonial."}
+                    ? "Unique among León's 16 churches, Our Lady of the Pillar Zaragoza Church (1884–1934) combines historicism with Romanesque inspiration and visible stone masonry, evoking a colonial defense bastion."
+                    : "Única en su clase entre las 16 iglesias de León, la Iglesia Nuestra Señora del Pilar de Zaragoza (1884–1934) combina el estilo historicista con inspiración románica en sillería de piedra visible sin pintar, emulando la solidez de un baluarte defensivo."}
                 </p>
               </div>
             </div>
@@ -163,12 +163,12 @@ export default function AboutView({ lang = "es" }: AboutViewProps) {
               </div>
               <div>
                 <h3 className="font-['Outfit',sans-serif] text-base font-bold text-[#1a1612]">
-                  {isEn ? "León Colonial & Wood Archways" : "Colonial Leonés y Arquería de Madera"}
+                  {isEn ? "Historicist University & Fine Arts Heritage" : "Historicismo Universitario y Bellas Artes"}
                 </h3>
                 <p className="text-xs sm:text-sm text-[#5c524c] mt-1 leading-relaxed">
                   {isEn
-                    ? "Two-story mansions with central courtyards and carved woodwork, seen in the Paraninfo UNAN-León and the Former Debayle Health House (1814)."
-                    : "Casonas señoriales de doble planta con patios centrales y carpintería labrada, evidenciadas en el Paraninfo UNAN-León y la Antigua Casa de Salud Debayle (1814)."}
+                    ? "Stately historicist and colonial structures with central courtyards, carved woodwork, and Solomonic columns, seen in the Paraninfo UNAN-León and the Former Debayle Health House (1814), now the Mariana Sansón School of Fine Arts."
+                    : "Estructuras de estilo historicista y colonial señorial con patios centrales, carpintería labrada y columnitas salomónicas, evidenciadas en el Paraninfo UNAN-León y la Antigua Casa de Salud Debayle (1814), actual Escuela de Bellas Artes 'Mariana Sansón'."}
                 </p>
               </div>
             </div>
@@ -214,8 +214,8 @@ export default function AboutView({ lang = "es" }: AboutViewProps) {
                 </h4>
                 <p className="text-xs text-[#b8a99c] mt-1 leading-relaxed">
                   {isEn
-                    ? "Integrated audio player with real-time seeker (mm:ss) and seamless language toggling between Spanish and English audio tracks."
-                    : "Reproductor de audio integrado con cronómetro en tiempo real (`mm:ss`) y alternancia limpia entre pistas de español e inglés."}
+                    ? "Integrated audio player with real-time seeker (mm:ss), background preloading, and seamless language toggling between Spanish and English audio tracks."
+                    : "Reproductor de audio integrado con cronómetro en tiempo real (`mm:ss`), precarga automática y alternancia limpia entre pistas de español e inglés."}
                 </p>
               </div>
             </div>
